@@ -24,6 +24,7 @@ class SongsController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
+        tableView.showsVerticalScrollIndicator = false
     }
     
     let menuBar : MenuBar = {
@@ -43,7 +44,7 @@ class SongsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 10
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
