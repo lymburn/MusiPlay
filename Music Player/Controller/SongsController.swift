@@ -14,6 +14,7 @@ class SongsController: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = "Charts"
         setupTableView()
+        setupMenuBar()
     }
 
     let cellId = "cellId"
@@ -23,6 +24,23 @@ class SongsController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
+    }
+    
+    let menuBar : MenuBar = {
+        let mb = MenuBar()
+        mb.translatesAutoresizingMaskIntoConstraints = false
+        return mb
+    }()
+    
+    private func setupMenuBar() {
+        view.addSubview(menuBar)
+        //Set constraints
+        menuBar.bottomAnchor.constraint(equalTo: tableView.layoutMarginsGuide.bottomAnchor).isActive = true
+        menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        menuBar.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        menuBar.backgroundColor = UIColor.red
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

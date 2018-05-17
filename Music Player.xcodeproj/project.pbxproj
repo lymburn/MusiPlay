@@ -13,6 +13,11 @@
 		260E01CB20ACB45B003B7423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 260E01CA20ACB45B003B7423 /* Assets.xcassets */; };
 		260E01CE20ACB45B003B7423 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 260E01CC20ACB45B003B7423 /* LaunchScreen.storyboard */; };
 		260E01DA20ACBEF0003B7423 /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E01D920ACBEF0003B7423 /* SongCell.swift */; };
+		260E01DD20ACD4EB003B7423 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E01DC20ACD4EB003B7423 /* Extensions.swift */; };
+		260E01DF20ACD822003B7423 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E01DE20ACD822003B7423 /* MenuBar.swift */; };
+		260E01E120ACD841003B7423 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E01E020ACD841003B7423 /* BaseTableViewCell.swift */; };
+		260E01E320ACDC7F003B7423 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E01E220ACDC7F003B7423 /* MenuCell.swift */; };
+		260E01E520ACDD18003B7423 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E01E420ACDD18003B7423 /* BaseCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		260E01CD20ACB45B003B7423 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		260E01CF20ACB45B003B7423 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		260E01D920ACBEF0003B7423 /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
+		260E01DC20ACD4EB003B7423 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		260E01DE20ACD822003B7423 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		260E01E020ACD841003B7423 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		260E01E220ACDC7F003B7423 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		260E01E420ACDD18003B7423 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +66,7 @@
 		260E01C220ACB459003B7423 /* Music Player */ = {
 			isa = PBXGroup;
 			children = (
+				260E01DB20ACD4D7003B7423 /* Helpers */,
 				260E01C320ACB459003B7423 /* AppDelegate.swift */,
 				260E01D820ACB5A8003B7423 /* Supporting Files */,
 				260E01D720ACB528003B7423 /* View */,
@@ -84,7 +95,11 @@
 		260E01D720ACB528003B7423 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				260E01E020ACD841003B7423 /* BaseTableViewCell.swift */,
 				260E01D920ACBEF0003B7423 /* SongCell.swift */,
+				260E01DE20ACD822003B7423 /* MenuBar.swift */,
+				260E01E220ACDC7F003B7423 /* MenuCell.swift */,
+				260E01E420ACDD18003B7423 /* BaseCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -97,6 +112,14 @@
 				260E01CC20ACB45B003B7423 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		260E01DB20ACD4D7003B7423 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				260E01DC20ACD4EB003B7423 /* Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,9 +193,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				260E01E320ACDC7F003B7423 /* MenuCell.swift in Sources */,
+				260E01E520ACDD18003B7423 /* BaseCollectionViewCell.swift in Sources */,
 				260E01C620ACB459003B7423 /* SongsController.swift in Sources */,
 				260E01DA20ACBEF0003B7423 /* SongCell.swift in Sources */,
 				260E01C420ACB459003B7423 /* AppDelegate.swift in Sources */,
+				260E01DD20ACD4EB003B7423 /* Extensions.swift in Sources */,
+				260E01E120ACD841003B7423 /* BaseTableViewCell.swift in Sources */,
+				260E01DF20ACD822003B7423 /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

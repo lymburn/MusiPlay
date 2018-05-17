@@ -8,11 +8,7 @@
 
 import UIKit
 
-class SongCell : UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
-    }
+class SongCell : BaseTableViewCell {
     
     let songImageView : UIImageView = {
         var imageView = UIImageView(image: UIImage(named: "profile_image"))
@@ -24,14 +20,15 @@ class SongCell : UITableViewCell {
     }()
     
     let songTitle : UITextView = {
-        var title = UITextView()
-        title.text = "Titlecxvcxcvcxvcxvxmncvxccvx cxvmnccvcnxzcxzncxzcxzvczvxvnczxczxvzcxnbczxvczxnvcxzvvnczbxnv"
-        title.isScrollEnabled = false
-        title.isEditable = false
-        title.font = UIFont(name: (title.font?.fontName)!, size: 20)
-        //title.textContainerInset = UIEdgeInsetsMake(0, -8, 0, 0)
-        title.translatesAutoresizingMaskIntoConstraints = false
-        return title
+        var textView = UITextView()
+        textView.text = "Childish Gambino "
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.textContainer.maximumNumberOfLines = 2
+        textView.textContainer.lineBreakMode = .byTruncatingTail
+        textView.font = UIFont(name: (textView.font?.fontName)!, size: 18)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
     
     let songDurationLabel : UILabel = {
@@ -43,7 +40,8 @@ class SongCell : UITableViewCell {
         return label
     }()
     
-    func setupViews() {
+    override func setupViews() {
+        super.setupViews()
         addSubview(songImageView)
         addSubview(songTitle)
         addSubview(songDurationLabel)
@@ -61,15 +59,12 @@ class SongCell : UITableViewCell {
         songTitle.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 8).isActive = true
         songTitle.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         songTitle.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        songTitle.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        songTitle.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         //Song duration constraints
         songDurationLabel.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 16).isActive = true
         songDurationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16).isActive = true
-        songDurationLabel.topAnchor.constraint(equalTo: songTitle.bottomAnchor, constant: 8).isActive = true
+        songDurationLabel.topAnchor.constraint(equalTo: songTitle.bottomAnchor).isActive = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
