@@ -13,30 +13,27 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = UIColor.rgb(red: 230, green: 32, blue: 31)
+        cv.backgroundColor = UIColor.white
         cv.dataSource = self
         cv.delegate = self
-        
+        cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
     
     let cellId = "cellId"
+    let menuIconNames = ["Trending", "Search", "Playlist", "Favourites", "More"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         collectionView.register(MenuCell.self, forCellWithReuseIdentifier: cellId)
         addSubview(collectionView)
-        //addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
-        //addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
         setCollectionViewConstraints()
         let selectedIndexPath = IndexPath(item: 0, section: 0)
         collectionView.selectItem(at: selectedIndexPath, animated: false, scrollPosition: .top)
     }
     
     func setCollectionViewConstraints() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        //collectionView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         collectionView.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -44,16 +41,22 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MenuCell
+        let image : UIImage? = UIImage(named: menuIconNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
+        cell.imageView.image = image
+        cell.iconLabel.text = menuIconNames[indexPath.item]
+        cell.iconLabel.textColor = UIColor.gray
+        
+        cell.tintColor = UIColor.gray
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width/4, height: frame.height)
+        return CGSize(width: frame.width/5, height: frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
