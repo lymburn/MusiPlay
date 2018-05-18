@@ -14,7 +14,7 @@ struct Video {
     let channel: String
 }
 
-protocol VideoModelDelegate {
+protocol VideoModelDelegate: class {
     //Indicate when the songs are requested
     func dataReady()
 }
@@ -22,7 +22,7 @@ protocol VideoModelDelegate {
 class VideoModel : NSObject {
     let apiKey = "AIzaSyCKx6f39vFN84qnGM6x2s_tyPzLwoN2cnA"
     var videos = [Video]()
-    var delegate: VideoModelDelegate?
+    weak var delegate: VideoModelDelegate?
     
     func getTrendingSongs() {
         //Fetch trending music videos from Youtube API

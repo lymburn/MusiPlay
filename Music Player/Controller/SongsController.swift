@@ -63,12 +63,18 @@ class SongsController: UITableViewController, VideoModelDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
+        cell.selectionStyle = .none
         cell.songTitle.text = videos[indexPath.row].title
         cell.channelLabel.text = videos[indexPath.row].channel
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
         let data = try? Data(contentsOf: videoThumbnailURL!)
         cell.imageView?.image = UIImage(data: data!)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let playerController = SongPlayerController()
+        self.navigationController?.pushViewController(playerController, animated: false)
     }
 }
 
