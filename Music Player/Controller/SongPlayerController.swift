@@ -11,16 +11,18 @@ import YouTubePlayer
 import WebKit
 
 class SongPlayerController : UIViewController {
+    var videoId: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Player"
         view.backgroundColor = UIColor.white
         setupViews()
+        //Settings for video player
         let playerVars = ["controls": "1", "playsinline": "1", "autohide": "1", "showinfo": "1", "autoplay": "0", "fs": "1", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
-        
         videoPlayerView.playerVars = playerVars as YouTubePlayerView.YouTubePlayerParameters
         videoPlayerView.delegate = self
-        videoPlayerView.loadVideoURL(URL(string: "https://www.youtube.com/watch?v=kJQP7kiw5Fk")!)
+        videoPlayerView.loadVideoID(videoId)
         
         NotificationCenter.default.addObserver(self, selector: #selector(SongPlayerController.playInBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
@@ -37,6 +39,7 @@ class SongPlayerController : UIViewController {
         let view = YouTubePlayerView()
         view.backgroundColor = UIColor.red
         view.translatesAutoresizingMaskIntoConstraints = false
+
         return view
     }()
     

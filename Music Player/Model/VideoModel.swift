@@ -12,6 +12,7 @@ struct Video {
     let title: String
     let thumbnailURL: String
     let channel: String
+    let videoId: String
 }
 
 protocol VideoModelDelegate: class {
@@ -59,12 +60,13 @@ class VideoModel : NSObject {
     //Get video title, thumbnail, and channel name
     private func parseJSON(video: Any) {
         let videoInfo = video as! [String: AnyObject]
+        let videoId = videoInfo["id"] as! String
         let snippet = videoInfo["snippet"] as! [String: AnyObject]
         let videoTitle = snippet["title"] as! String
         let channelTitle = snippet["channelTitle"] as! String
         let thumbnails = snippet["thumbnails"] as! [String: AnyObject]
         let defaultSizeThumbnail = thumbnails["default"] as! [String: AnyObject]
         let thumbnailURL = defaultSizeThumbnail["url"] as! String
-        videos.append(Video(title: videoTitle, thumbnailURL: thumbnailURL, channel: channelTitle))
+        videos.append(Video(title: videoTitle, thumbnailURL: thumbnailURL, channel: channelTitle, videoId: videoId))
     }
 }

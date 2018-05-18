@@ -74,6 +74,7 @@ class SongsController: UITableViewController, VideoModelDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playerController = SongPlayerController()
+        playerController.videoId = videos[indexPath.row].videoId
         self.navigationController?.pushViewController(playerController, animated: false)
     }
 }
