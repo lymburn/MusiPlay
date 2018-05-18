@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SongsController: UITableViewController {
+class SongsController: UITableViewController, VideoModelDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,10 +16,19 @@ class SongsController: UITableViewController {
         setupTableView()
         setupMenuBar()
         videoModel.getTrendingSongs()
+        videoModel.delegate = self
     }
     
     let videoModel = VideoModel()
+    var videos = [Video]()
     let cellId = "cellId"
+    
+    func dataReady() {
+        videos = videoModel.videos
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
     
     private func setupTableView() {
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
@@ -46,16 +55,17 @@ class SongsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return videos.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
-        cell.songTitle.text = videoModel.videos[indexPath.row].title
+        cell.songTitle.text = videos[indexPath.row].title
+        let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
+        let data = try? Data(contentsOf: videoThumbnailURL!)
+        cell.imageView?.image = UIImage(data: data!)
         return cell
     }
     
-    
-
 }
 

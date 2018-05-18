@@ -13,9 +13,15 @@ struct Video {
     let thumbnailURL: String
 }
 
+protocol VideoModelDelegate {
+    //Indicate when the songs are requested
+    func dataReady()
+}
+
 class VideoModel : NSObject {
     let apiKey = "AIzaSyCKx6f39vFN84qnGM6x2s_tyPzLwoN2cnA"
     var videos = [Video]()
+    var delegate: VideoModelDelegate?
     
     func getTrendingSongs() {
         //Fetch trending music videos from Youtube API
@@ -42,6 +48,10 @@ class VideoModel : NSObject {
                         let thumbnailURL = defaultSizeThumbnail["url"] as! String
                         let video = Video(title: videoTitle, thumbnailURL: thumbnailURL)
                         self.videos.append(video)
+                    }
+                    //Indicate data is fetched
+                    if self.delegate != nil {
+                        self.delegate!.dataReady()
                     }
                 }
             }

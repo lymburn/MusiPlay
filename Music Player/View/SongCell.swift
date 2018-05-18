@@ -11,7 +11,7 @@ import UIKit
 class SongCell : BaseTableViewCell {
     
     let songImageView : UIImageView = {
-        var imageView = UIImageView(image: UIImage(named: "profile_image"))
+        var imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
