@@ -25,8 +25,17 @@ class SongCell : BaseTableViewCell {
         textView.isEditable = false
         textView.textContainer.maximumNumberOfLines = 2
         textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.font = UIFont(name: "Helvetica Neue", size: 14)
+        textView.font = UIFont(name: "Helvetica Neue", size: 16)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        //Allows for auto resizing
+        let size = CGSize(width: textView.frame.width, height: .infinity)
+        let estimatedSize = textView.sizeThatFits(size)
+        textView.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                constraint.constant = estimatedSize.height
+            }
+        }
         return textView
     }()
     
@@ -57,13 +66,11 @@ class SongCell : BaseTableViewCell {
         //Song title constraints
         songTitle.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 8).isActive = true
         songTitle.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        songTitle.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        songTitle.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        songTitle.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
         
         //Song duration constraints
-        channelLabel.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 16).isActive = true
+        channelLabel.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 12).isActive = true
         channelLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16).isActive = true
         channelLabel.topAnchor.constraint(equalTo: songTitle.bottomAnchor).isActive = true
     }
-    
 }

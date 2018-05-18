@@ -70,6 +70,5 @@ class SongsController: UITableViewController, VideoModelDelegate {
         cell.imageView?.image = UIImage(data: data!)
         return cell
     }
-    
 }
 
