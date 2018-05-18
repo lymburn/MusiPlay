@@ -34,8 +34,11 @@ class SongsController: UITableViewController, VideoModelDelegate {
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 100
+        tableView.rowHeight = 110
         tableView.showsVerticalScrollIndicator = false
+        //Edge to edge separator lines
+        tableView.layoutMargins = UIEdgeInsets.zero
+        tableView.separatorInset = UIEdgeInsets.zero
     }
     
     let menuBar : MenuBar = {
@@ -61,6 +64,7 @@ class SongsController: UITableViewController, VideoModelDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
         cell.songTitle.text = videos[indexPath.row].title
+        cell.channelLabel.text = videos[indexPath.row].channel
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
         let data = try? Data(contentsOf: videoThumbnailURL!)
         cell.imageView?.image = UIImage(data: data!)

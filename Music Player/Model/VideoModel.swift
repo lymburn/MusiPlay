@@ -11,6 +11,7 @@ import UIKit
 struct Video {
     let title: String
     let thumbnailURL: String
+    let channel: String
 }
 
 protocol VideoModelDelegate {
@@ -40,14 +41,7 @@ class VideoModel : NSObject {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : AnyObject] {
                     for videoObject in json["items"] as! NSArray {
-                        let videoInfo = videoObject as! [String: AnyObject]
-                        let snippet = videoInfo["snippet"] as! [String: AnyObject]
-                        let videoTitle = snippet["title"] as! String
-                        let thumbnails = snippet["thumbnails"] as! [String: AnyObject]
-                        let defaultSizeThumbnail = thumbnails["default"] as! [String: AnyObject]
-                        let thumbnailURL = defaultSizeThumbnail["url"] as! String
-                        let video = Video(title: videoTitle, thumbnailURL: thumbnailURL)
-                        self.videos.append(video)
+                        self.parseJSON(video: videoObject)
                     }
                     //Indicate data is fetched
                     if self.delegate != nil {
@@ -60,5 +54,17 @@ class VideoModel : NSObject {
             }
             
         }.resume()
+    }
+    
+    //Get video title, thumbnail, and channel name
+    private func parseJSON(video: Any) {
+        let videoInfo = video as! [String: AnyObject]
+        let snippet = videoInfo["snippet"] as! [String: AnyObject]
+        let videoTitle = snippet["title"] as! String
+        let channelTitle = snippet["channelTitle"] as! String
+        let thumbnails = snippet["thumbnails"] as! [String: AnyObject]
+        let defaultSizeThumbnail = thumbnails["default"] as! [String: AnyObject]
+        let thumbnailURL = defaultSizeThumbnail["url"] as! String
+        videos.append(Video(title: videoTitle, thumbnailURL: thumbnailURL, channel: channelTitle))
     }
 }
