@@ -47,9 +47,8 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         let image : UIImage? = UIImage(named: menuIconNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
         cell.imageView.image = image
         cell.iconLabel.text = menuIconNames[indexPath.item]
-        cell.iconLabel.textColor = UIColor.gray
+        cell.tintColor = UIColor.rgb(red: 138, green: 43, blue: 226)
         
-        cell.tintColor = UIColor.gray
         return cell
     }
     

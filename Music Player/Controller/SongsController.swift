@@ -15,8 +15,10 @@ class SongsController: UITableViewController {
         navigationItem.title = "Charts"
         setupTableView()
         setupMenuBar()
+        videoModel.getTrendingSongs()
     }
-
+    
+    let videoModel = VideoModel()
     let cellId = "cellId"
     
     private func setupTableView() {
@@ -49,6 +51,7 @@ class SongsController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
+        cell.songTitle.text = videoModel.videos[indexPath.row].title
         return cell
     }
     

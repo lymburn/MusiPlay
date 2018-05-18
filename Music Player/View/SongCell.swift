@@ -19,14 +19,13 @@ class SongCell : BaseTableViewCell {
         return imageView
     }()
     
-    let songTitle : UITextView = {
+    var songTitle : UITextView = {
         var textView = UITextView()
-        textView.text = "Childish Gambino "
         textView.isScrollEnabled = false
         textView.isEditable = false
         textView.textContainer.maximumNumberOfLines = 2
         textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.font = UIFont(name: (textView.font?.fontName)!, size: 18)
+        textView.font = UIFont(name: "Helvetica Neue", size: 18)
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
