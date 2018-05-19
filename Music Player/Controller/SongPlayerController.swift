@@ -9,9 +9,11 @@
 import UIKit
 import YouTubePlayer
 import WebKit
+import NVActivityIndicatorView
 
-class SongPlayerController : UIViewController {
+class SongPlayerController : UIViewController{
     var videoId: String!
+    var activityIndicator: NVActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,33 +21,47 @@ class SongPlayerController : UIViewController {
         view.backgroundColor = UIColor.white
         setupViews()
         //Settings for video player
-        let playerVars = ["controls": "1", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "1", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
+        let playerVars = ["controls": "0", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "1", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
         videoPlayerView.playerVars = playerVars as YouTubePlayerView.YouTubePlayerParameters
         videoPlayerView.delegate = self
         videoPlayerView.loadVideoID(videoId)
         
+        setActivityIndicator()
         NotificationCenter.default.addObserver(self, selector: #selector(SongPlayerController.playInBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
-    
     
     @objc func playInBackground () {
         DispatchQueue.main.async {
             self.videoPlayerView.play()
         }
-        
+    }
+    
+    //Loading animation
+    private func setActivityIndicator() {
+        let size = view.bounds.width/6
+        let frame = CGRect(x: view.center.x - size/2, y: view.bounds.height/4, width: size, height: size)
+        activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white)
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
     
     let videoPlayerView: YouTubePlayerView = {
         let view = YouTubePlayerView()
         view.backgroundColor = UIColor.red
         view.translatesAutoresizingMaskIntoConstraints = false
-
         return view
     }()
     
     let controlsView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.blue
+        view.backgroundColor = UIColor.white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -53,6 +69,8 @@ class SongPlayerController : UIViewController {
     private func setupViews() {
         view.addSubview(videoPlayerView)
         view.addSubview(controlsView)
+        view.addSubview(loadingView)
+        
         setupConstraints()
     }
     
@@ -60,21 +78,29 @@ class SongPlayerController : UIViewController {
         videoPlayerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         videoPlayerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         videoPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        /* 16/9 aspect ratio */
-        let height = view.frame.size.height/2
-        videoPlayerView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        videoPlayerView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
         
         controlsView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         controlsView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         controlsView.topAnchor.constraint(equalTo: videoPlayerView.bottomAnchor).isActive = true
+        
+        loadingView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        loadingView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+ 
     }
-    
 }
 
 extension SongPlayerController : YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {
         print("player ready")
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: {(Timer) in self.videoPlayerView.play()})
+        videoPlayerView.play()
+        //Remove loading spinner after 1 second
+        Timer.scheduledTimer(withTimeInterval: 6, repeats: false, block: {(Timer) in
+            self.loadingView.backgroundColor = UIColor.clear
+            self.activityIndicator.stopAnimating()
+        })
     }
 }
