@@ -8,13 +8,12 @@
 
 import UIKit
 
-class SongsController: BaseViewController, UITableViewDelegate, UITableViewDataSource{
-
+class SongsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         super.setupViews()
         navigationItem.title = "Charts"
-        videoModel.getTrendingSongs()
+        videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
         videoModel.delegate = self
         
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
@@ -49,7 +48,10 @@ class SongsController: BaseViewController, UITableViewDelegate, UITableViewDataS
         super.setupMenuBar()
         setConstraints()
     }
-    
+}
+
+//MARK: Table view delegate and data source
+extension SongsController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videos.count
     }
@@ -70,6 +72,15 @@ class SongsController: BaseViewController, UITableViewDelegate, UITableViewDataS
         playerController.videoIndex = indexPath.row
         playerController.videos = videos
         self.navigationController?.pushViewController(playerController, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        //Fetch more videos when scrolled to bottom
+        let lastElement = videos.count - 1
+        if indexPath.row == lastElement {
+            print("fetching more music")
+            videoModel.fetchMoreSongs()
+        }
     }
 }
 

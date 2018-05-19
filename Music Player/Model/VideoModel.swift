@@ -23,23 +23,29 @@ protocol VideoModelDelegate: class {
 class VideoModel : NSObject {
     let apiKey = "AIzaSyCKx6f39vFN84qnGM6x2s_tyPzLwoN2cnA"
     var videos = [Video]()
+    var nextPageToken : String? = nil
     weak var delegate: VideoModelDelegate?
     
-    func getTrendingSongs() {
+    //Fetching parameters
+    private let maxResults = 20
+    
+    func fetchSongs(part: String, category: String, nextPage: Bool) {
         //Fetch trending music videos from Youtube API
-        //Parameters
-        let part = "snippet"
-        let chart = "mostPopular"
-        let videoCategoryId = "10"
-        let maxResults = 20
-        
-        let youtubeApi = "https://www.googleapis.com/youtube/v3/videos?part=\(part)&chart=\(chart)&maxResults=\(maxResults)&videoCategoryId=\(videoCategoryId)&key=\(apiKey)"
+        var youtubeApi = String()
+        if nextPage {
+            //Fetch videos from next page if token not nil
+            guard let nextPageToken = nextPageToken else {return}
+            youtubeApi = "https://www.googleapis.com/youtube/v3/videos?part=\(part)&chart=mostPopular&maxResults=\(maxResults)&videoCategoryId=\(category)&pageToken=\(nextPageToken)&key=\(apiKey)"
+        } else {
+            youtubeApi = "https://www.googleapis.com/youtube/v3/videos?part=\(part)&chart=mostPopular&maxResults=\(maxResults)&videoCategoryId=\(category)&key=\(apiKey)"
+        }
         guard let url = URL(string: youtubeApi) else {return}
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {return}
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : AnyObject] {
+                    self.nextPageToken = json["nextPageToken"] as? String
                     for videoObject in json["items"] as! NSArray {
                         self.parseJSON(video: videoObject)
                     }
@@ -54,6 +60,11 @@ class VideoModel : NSObject {
             }
             
         }.resume()
+    }
+    
+    func fetchMoreSongs() {
+        //Fetch songs from next page
+        fetchSongs(part: "snippet", category: "10", nextPage: true)
     }
     
     //Get video title, thumbnail, and channel name
