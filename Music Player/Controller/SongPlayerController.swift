@@ -21,7 +21,7 @@ class SongPlayerController : UIViewController{
         view.backgroundColor = UIColor.white
         setupViews()
         //Settings for video player
-        let playerVars = ["controls": "0", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "1", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
+        let playerVars = ["controls": "0", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "0", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
         videoPlayerView.playerVars = playerVars as YouTubePlayerView.YouTubePlayerParameters
         videoPlayerView.delegate = self
         videoPlayerView.loadVideoID(videoId)
@@ -31,9 +31,7 @@ class SongPlayerController : UIViewController{
     }
     
     @objc func playInBackground () {
-        DispatchQueue.main.async {
-            self.videoPlayerView.play()
-        }
+        self.videoPlayerView.play()
     }
     
     //Loading animation

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,8 +22,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navController = UINavigationController(rootViewController: SongsController())
         window!.rootViewController = navController
         window?.makeKeyAndVisible()
+        allowBackgroundPlayback()
+        
         
         return true
+    }
+    
+    func allowBackgroundPlayback () {
+        //Turn on background playback
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        } catch {
+            // Handle setCategory failure
+            print(error)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
