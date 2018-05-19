@@ -40,14 +40,13 @@ class MenuCell: BaseCollectionViewCell {
     func setupConstraints() {
         //Image view constraints
         imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 28).isActive = true
+        imageView.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
         
         //Label constraints
         iconLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        iconLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        
+        iconLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
     }
     
     override func setupViews() {

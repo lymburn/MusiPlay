@@ -19,7 +19,7 @@ class SongPlayerController : UIViewController {
         view.backgroundColor = UIColor.white
         setupViews()
         //Settings for video player
-        let playerVars = ["controls": "1", "playsinline": "1", "autohide": "1", "showinfo": "1", "autoplay": "0", "fs": "1", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
+        let playerVars = ["controls": "1", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "1", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
         videoPlayerView.playerVars = playerVars as YouTubePlayerView.YouTubePlayerParameters
         videoPlayerView.delegate = self
         videoPlayerView.loadVideoID(videoId)
@@ -29,10 +29,10 @@ class SongPlayerController : UIViewController {
     
     
     @objc func playInBackground () {
-        print("MHM")
-        DispatchQueue.main.asyncAfter(deadline: .now() ) {
+        DispatchQueue.main.async {
             self.videoPlayerView.play()
         }
+        
     }
     
     let videoPlayerView: YouTubePlayerView = {
@@ -75,6 +75,6 @@ class SongPlayerController : UIViewController {
 extension SongPlayerController : YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {
         print("player ready")
-        videoPlayerView.play()
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: {(Timer) in self.videoPlayerView.play()})
     }
 }

@@ -31,9 +31,9 @@ class VideoModel : NSObject {
         let part = "snippet"
         let chart = "mostPopular"
         let videoCategoryId = "10"
-        let regionCode = "US"
+        let maxResults = 20
         
-        let youtubeApi = "https://www.googleapis.com/youtube/v3/videos?part=\(part)&chart=\(chart)&videoCategoryId=\(videoCategoryId)&regionCode=\(regionCode)&key=\(apiKey)"
+        let youtubeApi = "https://www.googleapis.com/youtube/v3/videos?part=\(part)&chart=\(chart)&maxResults=\(maxResults)&videoCategoryId=\(videoCategoryId)&key=\(apiKey)"
         guard let url = URL(string: youtubeApi) else {return}
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
