@@ -38,7 +38,6 @@ class VideoModel : NSObject {
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data else {return}
-            
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : AnyObject] {
                     for videoObject in json["items"] as! NSArray {

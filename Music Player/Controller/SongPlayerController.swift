@@ -94,8 +94,10 @@ class SongPlayerController : UIViewController{
 extension SongPlayerController : YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {
         print("player ready")
+        
         videoPlayerView.play()
-        //Remove loading spinner after 1 second
+
+        //Remove loading spinner after youtube signs are gone
         Timer.scheduledTimer(withTimeInterval: 6, repeats: false, block: {(Timer) in
             self.loadingView.backgroundColor = UIColor.clear
             self.activityIndicator.stopAnimating()

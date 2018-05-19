@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SongsController: UIViewController, UITableViewDelegate, UITableViewDataSource, VideoModelDelegate {
+class SongsController: BaseViewController, UITableViewDelegate, UITableViewDataSource{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        super.setupViews()
         navigationItem.title = "Charts"
-        setupViews()
         videoModel.getTrendingSongs()
         videoModel.delegate = self
         
@@ -26,13 +26,6 @@ class SongsController: UIViewController, UITableViewDelegate, UITableViewDataSou
     var videos = [Video]()
     let cellId = "cellId"
     
-    func dataReady() {
-        videos = videoModel.videos
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
     let tableView : UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 110
@@ -43,19 +36,7 @@ class SongsController: UIViewController, UITableViewDelegate, UITableViewDataSou
         return tableView
     }()
     
-    let menuBar : MenuBar = {
-        let mb = MenuBar()
-        mb.translatesAutoresizingMaskIntoConstraints = false
-        return mb
-    }()
-    
     private func setConstraints() {
-        menuBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        menuBar.heightAnchor.constraint(equalToConstant: 55).isActive = true
-        menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        menuBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        menuBar.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -63,9 +44,9 @@ class SongsController: UIViewController, UITableViewDelegate, UITableViewDataSou
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     }
     
-    private func setupViews() {
+    override func setupViews() {
         view.addSubview(tableView)
-        view.addSubview(menuBar)
+        super.setupMenuBar()
         setConstraints()
     }
     
@@ -91,3 +72,12 @@ class SongsController: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
 }
 
+//MARK: Video model delegate
+extension SongsController: VideoModelDelegate {
+    func dataReady() {
+        videos = videoModel.videos
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}

@@ -22,6 +22,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     
     let cellId = "cellId"
     let menuIconNames = ["Trending", "Search", "Playlist", "Favourites", "More"]
+    weak var delegate: MenuBarDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +61,18 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         return 0
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //Notify view controller to change views
+        self.delegate?.menuCellPressed(for: menuIconNames[indexPath.item])
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+//MARK: Handle presses on menu cells
+protocol MenuBarDelegate: class {
+    func menuCellPressed(for sectionName: String)
 }
