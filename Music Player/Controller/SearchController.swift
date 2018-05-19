@@ -20,9 +20,9 @@ class SearchController: BaseViewController {
         tableView.dataSource = self
         
         //End editing when tapping outside search bar
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
+    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
     
     let videoModel = VideoModel()
     var videos = [Video]()
@@ -67,10 +67,13 @@ class SearchController: BaseViewController {
 //MARK: UISearchBar delegates methods
 extension SearchController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        tap.isEnabled = false //Remove tap gesture
+        searchBar.endEditing(true)
         //Fetch songs of related search
         if searchBar.text != "" && searchBar.text != nil {
             query = searchBar.text!
-            print(query)
+            //Replace spaces with + for youtube queries
+            query = query!.replacingOccurrences(of: " ", with: "+")
             videoModel.fetchNewSearchResults(part: "snippet", nextPage: false, query: query!)
         }
     }
@@ -94,6 +97,7 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
+        cell.becomeFirstResponder()
         cell.selectionStyle = .none
         cell.songTitle.text = videos[indexPath.row].title
         cell.channelLabel.text = videos[indexPath.row].channel
@@ -104,6 +108,7 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected")
         let playerController = SongPlayerController()
         playerController.videoIndex = indexPath.row
         playerController.videos = videos

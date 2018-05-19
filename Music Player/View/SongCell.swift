@@ -22,7 +22,7 @@ class SongCell : BaseTableViewCell {
     var songTitle : UITextView = {
         var textView = UITextView()
         textView.isScrollEnabled = false
-        textView.isEditable = false
+        textView.isUserInteractionEnabled = false
         textView.textContainer.maximumNumberOfLines = 2
         textView.textContainer.lineBreakMode = .byTruncatingTail
         textView.font = UIFont(name: "Helvetica Neue", size: 16)
