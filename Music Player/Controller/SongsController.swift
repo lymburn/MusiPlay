@@ -67,7 +67,8 @@ class SongsController: BaseViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playerController = SongPlayerController()
-        playerController.videoId = videos[indexPath.row].videoId
+        playerController.videoIndex = indexPath.row
+        playerController.videos = videos
         self.navigationController?.pushViewController(playerController, animated: false)
     }
 }

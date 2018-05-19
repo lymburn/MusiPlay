@@ -12,7 +12,8 @@ import WebKit
 import NVActivityIndicatorView
 
 class SongPlayerController : UIViewController{
-    var videoId: String!
+    var videoIndex: Int? = nil
+    var videos : [Video]? = nil
     var activityIndicator: NVActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -24,14 +25,20 @@ class SongPlayerController : UIViewController{
         let playerVars = ["controls": "0", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "0", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
         videoPlayerView.playerVars = playerVars as YouTubePlayerView.YouTubePlayerParameters
         videoPlayerView.delegate = self
-        videoPlayerView.loadVideoID(videoId)
+        
+        guard let videoIndex = videoIndex else {return}
+        guard let videos = videos else {return}
+        videoPlayerView.loadVideoID(videos[videoIndex].videoId)
         
         setActivityIndicator()
         NotificationCenter.default.addObserver(self, selector: #selector(SongPlayerController.playInBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     @objc func playInBackground () {
-        self.videoPlayerView.play()
+        //if videoPlayerView.playerState != YouTubePlayerState.Buffering{
+        print("Hi")
+            self.videoPlayerView.play()
+        //}
     }
     
     //Loading animation
@@ -87,14 +94,12 @@ class SongPlayerController : UIViewController{
         loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         loadingView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
- 
     }
 }
 
 extension SongPlayerController : YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {
         print("player ready")
-        
         videoPlayerView.play()
 
         //Remove loading spinner after youtube signs are gone
@@ -102,5 +107,20 @@ extension SongPlayerController : YouTubePlayerDelegate {
             self.loadingView.backgroundColor = UIColor.clear
             self.activityIndicator.stopAnimating()
         })
+    }
+    
+    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
+        print(playerState)
+        if playerState == YouTubePlayerState.Ended {
+            //Increment video index
+            guard var videoIndex = videoIndex else {return}
+            guard let videos = videos else {return}
+            videoIndex += 1
+            //Play next video if index is less than array size
+            if videoIndex < videos.count {
+                videoPlayerView.loadVideoID(videos[videoIndex].videoId)
+            }
+        }
+        
     }
 }
