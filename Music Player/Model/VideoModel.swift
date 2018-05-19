@@ -72,6 +72,13 @@ class VideoModel : NSObject {
         }
     }
     
+    //Clear videos array and then fetch search results
+    func fetchNewSearchResults(part: String, nextPage: Bool, query:String) {
+        //Clear videos array
+        videos.removeAll()
+        fetchSearchResults(part: part, nextPage: nextPage, query: query)
+    }
+    
     func fetchSearchResults(part: String, nextPage: Bool, query:String) {
         //Looking for search results
         var youtubeApi = String()
@@ -94,6 +101,7 @@ class VideoModel : NSObject {
                     //Indicate data is fetched
                     if self.delegate != nil {
                         self.delegate!.dataReady()
+                        print("ready")
                     }
                 }
             }

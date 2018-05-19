@@ -120,6 +120,5 @@ extension SongPlayerController : YouTubePlayerDelegate {
                 videoPlayerView.loadVideoID(videos[videoIndex].videoId)
             }
         }
-        
     }
 }

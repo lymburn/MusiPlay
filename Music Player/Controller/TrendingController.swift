@@ -14,9 +14,8 @@ class TrendingController: BaseViewController {
         super.setupViews()
         navigationItem.title = "Charts"
         
-        if !displaySearchResults {
-            videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
-        }
+        videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
+
         videoModel.delegate = self
         
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
@@ -24,11 +23,9 @@ class TrendingController: BaseViewController {
         tableView.dataSource = self
     }
     
-    var displaySearchResults: Bool = false
     let videoModel = VideoModel()
     var videos = [Video]()
     let cellId = "cellId"
-    var query: String? = nil
     
     let tableView : BaseTableView = {
         let tableView = BaseTableView()
@@ -40,7 +37,6 @@ class TrendingController: BaseViewController {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
     }
     
     override func setupViews() {
@@ -79,7 +75,7 @@ extension TrendingController: UITableViewDelegate, UITableViewDataSource {
         let lastElement = videos.count - 1
         if indexPath.row == lastElement {
             print("fetching more music")
-            videoModel.fetchMoreSongs(search: displaySearchResults, query: query!)
+            videoModel.fetchMoreSongs(search: false, query: "")
         }
     }
 }
