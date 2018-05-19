@@ -8,13 +8,23 @@
 
 import UIKit
 
-class SearchController: UIViewController {
+class SearchController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        view.backgroundColor = UIColor.white
+        searchBar.delegate = self
+        
+        //End editing when tapping outside search bar
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
-    private func setupViews() {
+    @objc func dismissKeyboard() {
+        searchBar.endEditing(true)
+    }
+    
+    override func setupViews() {
+        super.setupMenuBar()
         view.addSubview(searchBar)
         setConstraints()
     }
@@ -26,9 +36,28 @@ class SearchController: UIViewController {
     }()
     
     private func setConstraints() {
-        searchBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        searchBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+}
+
+//MARK: UISearchBar delegates
+extension SearchController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //searchBar.setShowsCancelButton(true, animated: true)
+        print("helLO")
+    }
+    
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.text = ""
+        searchBar.endEditing(true)
     }
 }

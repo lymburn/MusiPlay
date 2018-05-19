@@ -41,8 +41,14 @@ extension BaseViewController : MenuBarDelegate {
     func menuCellPressed(for sectionName: String) {
         print("pressed")
         switch sectionName {
-            case "Trending":break
-            case "Search":break
+            case "Trending":
+                let controller = SongsController()
+                let nav = UINavigationController(rootViewController: controller)
+                present(nav, animated: false, completion: nil)
+            case "Search":
+                let controller = SearchController()
+                let nav = UINavigationController(rootViewController: controller)
+                present(nav, animated: false, completion: nil)
             case "Playlist":break
             case "Favourites":break
             case "More":break
