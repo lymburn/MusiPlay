@@ -42,7 +42,7 @@ extension BaseViewController : MenuBarDelegate {
         print("pressed")
         switch sectionName {
             case "Trending":
-                let controller = SongsController()
+                let controller = TrendingController()
                 let nav = UINavigationController(rootViewController: controller)
                 present(nav, animated: false, completion: nil)
             case "Search":

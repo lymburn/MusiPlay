@@ -35,11 +35,9 @@ class SongPlayerController : UIViewController{
     }
     
     @objc func playInBackground () {
-        //if videoPlayerView.playerState != YouTubePlayerState.Buffering{
         print("Hi")
         print (videoPlayerView.playerState)
             self.videoPlayerView.play()
-        //}
     }
     
     //Loading animation

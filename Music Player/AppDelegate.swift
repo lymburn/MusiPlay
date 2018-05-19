@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window = UIWindow()
         
-        let navController = UINavigationController(rootViewController: SongsController())
+        let navController = UINavigationController(rootViewController: TrendingController())
         window!.rootViewController = navController
         window?.makeKeyAndVisible()
         allowBackgroundPlayback()

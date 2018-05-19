@@ -8,12 +8,15 @@
 
 import UIKit
 
-class SongsController: BaseViewController {
+class TrendingController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         super.setupViews()
         navigationItem.title = "Charts"
-        videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
+        
+        if !displaySearchResults {
+            videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
+        }
         videoModel.delegate = self
         
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
@@ -21,17 +24,14 @@ class SongsController: BaseViewController {
         tableView.dataSource = self
     }
     
+    var displaySearchResults: Bool = false
     let videoModel = VideoModel()
     var videos = [Video]()
     let cellId = "cellId"
+    var query: String? = nil
     
-    let tableView : UITableView = {
-        let tableView = UITableView()
-        tableView.rowHeight = 110
-        tableView.showsVerticalScrollIndicator = false
-        tableView.layoutMargins = UIEdgeInsets.zero
-        tableView.separatorInset = UIEdgeInsets.zero
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+    let tableView : BaseTableView = {
+        let tableView = BaseTableView()
         return tableView
     }()
     
@@ -51,7 +51,7 @@ class SongsController: BaseViewController {
 }
 
 //MARK: Table view delegate and data source
-extension SongsController: UITableViewDelegate, UITableViewDataSource {
+extension TrendingController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return videos.count
     }
@@ -79,14 +79,15 @@ extension SongsController: UITableViewDelegate, UITableViewDataSource {
         let lastElement = videos.count - 1
         if indexPath.row == lastElement {
             print("fetching more music")
-            videoModel.fetchMoreSongs()
+            videoModel.fetchMoreSongs(search: displaySearchResults, query: query!)
         }
     }
 }
 
 //MARK: Video model delegate
-extension SongsController: VideoModelDelegate {
+extension TrendingController: VideoModelDelegate {
     func dataReady() {
+        print("data ready")
         videos = videoModel.videos
         DispatchQueue.main.async {
             self.tableView.reloadData()

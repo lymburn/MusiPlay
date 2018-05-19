@@ -43,13 +43,19 @@ class SearchController: BaseViewController {
     }
 }
 
-//MARK: UISearchBar delegates
+//MARK: UISearchBar delegates methods
 extension SearchController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //searchBar.setShowsCancelButton(true, animated: true)
-        print("helLO")
+        //Fetch songs of related search
+        if searchBar.text != "" && searchBar.text != nil {
+            let songsController = TrendingController()
+            let query = searchBar.text!
+            songsController.displaySearchResults = true
+            songsController.query = query
+            songsController.videoModel.fetchSearchResults(part: "snippet", nextPage: false, query: query)
+            present(songsController, animated: false, completion: nil)
+        }
     }
-    
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
