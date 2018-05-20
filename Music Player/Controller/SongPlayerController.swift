@@ -36,7 +36,7 @@ class SongPlayerController : UIViewController{
     //Loading animation
     private func setActivityIndicator() {
         let size = view.bounds.width/6
-        let frame = CGRect(x: view.center.x - size/2, y: view.bounds.height/4, width: size, height: size)
+        let frame = CGRect(x: view.center.x - size/2, y: view.bounds.height*0.3, width: size, height: size)
         activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white)
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
@@ -75,7 +75,7 @@ class SongPlayerController : UIViewController{
         videoPlayerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         videoPlayerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         videoPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        videoPlayerView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        videoPlayerView.heightAnchor.constraint(equalToConstant: view.frame.size.height*0.6).isActive = true
         
         controlsView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -85,7 +85,7 @@ class SongPlayerController : UIViewController{
         loadingView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        loadingView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        loadingView.heightAnchor.constraint(equalToConstant: view.frame.size.height*0.6).isActive = true
     }
     
     fileprivate func getFormattedTime(_ time: String) -> String {
@@ -96,6 +96,7 @@ class SongPlayerController : UIViewController{
     
         let newTime = (time as NSString).integerValue
         var formattedString = formatter.string(from: TimeInterval(newTime))!
+        
         //Add 0's if time is less than 10 seconds, 1 minute, and 10 minutes
         if newTime < 10 {
             formattedString = "00:0" + formattedString
@@ -104,12 +105,15 @@ class SongPlayerController : UIViewController{
         } else if newTime < 600 {
             formattedString = "0" + formattedString
         }
-        
         return formattedString
     }
     
     fileprivate func setVideoDuration(for duration: String) {
         controlsView.durationLabel.text = getFormattedTime(duration)
+        
+        //Set max value for slider
+        let floatDuration = (duration as NSString).floatValue
+        self.controlsView.videoSlider.maximumValue = floatDuration
     }
     
     fileprivate func setCurrentTime() {
@@ -117,6 +121,10 @@ class SongPlayerController : UIViewController{
             let currentTime = self.videoPlayerView.getCurrentTime()!
             let formattedTime = self.getFormattedTime(currentTime)
             self.controlsView.currentTimeLabel.text = formattedTime
+            
+            //Set slider value
+            let floatTime = (currentTime as NSString).floatValue
+            self.controlsView.videoSlider.value = floatTime
         }
     }
 }
