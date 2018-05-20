@@ -11,6 +11,7 @@ import UIKit
 class SearchController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Search"
         view.backgroundColor = UIColor.white
         searchBar.delegate = self
         videoModel.delegate = self
@@ -108,7 +109,6 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected")
         let playerController = SongPlayerController()
         playerController.videoIndex = indexPath.row
         playerController.videos = videos

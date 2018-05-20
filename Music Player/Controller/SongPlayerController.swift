@@ -22,7 +22,7 @@ class SongPlayerController : UIViewController{
         view.backgroundColor = UIColor.white
         setupViews()
         //Settings for video player
-        let playerVars = ["controls": "0", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "0", "fs": "0", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
+        let playerVars = ["controls": "0", "playsinline": "1", "autohide": "1", "showinfo": "0", "autoplay": "1", "fs": "0", "rel": "0", "loop": "0", "enablejsapi": "1", "modestbranding": "1"]
         videoPlayerView.playerVars = playerVars as YouTubePlayerView.YouTubePlayerParameters
         videoPlayerView.delegate = self
         
@@ -31,13 +31,6 @@ class SongPlayerController : UIViewController{
         videoPlayerView.loadVideoID(videos[videoIndex].videoId)
         
         setActivityIndicator()
-        NotificationCenter.default.addObserver(self, selector: #selector(SongPlayerController.playInBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-    }
-    
-    @objc func playInBackground () {
-        print("Hi")
-        print (videoPlayerView.playerState)
-            self.videoPlayerView.play()
     }
     
     //Loading animation
@@ -117,6 +110,7 @@ extension SongPlayerController : YouTubePlayerDelegate {
             videoIndex += 1
             //Play next video if index is less than array size
             if videoIndex < videos.count {
+                videoPlayerView.clear()
                 videoPlayerView.loadVideoID(videos[videoIndex].videoId)
             }
         }

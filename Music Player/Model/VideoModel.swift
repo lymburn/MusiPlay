@@ -101,7 +101,6 @@ class VideoModel : NSObject {
                     //Indicate data is fetched
                     if self.delegate != nil {
                         self.delegate!.dataReady()
-                        print("ready")
                     }
                 }
             }

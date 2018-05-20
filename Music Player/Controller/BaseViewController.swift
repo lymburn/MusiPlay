@@ -40,7 +40,6 @@ class BaseViewController: UIViewController {
 //MARK: Menu bar delegates
 extension BaseViewController : MenuBarDelegate {
     func menuCellPressed(for sectionName: String) {
-        print("pressed")
         switch sectionName {
             case "Trending":
                 let controller = TrendingController()

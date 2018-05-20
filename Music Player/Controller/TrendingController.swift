@@ -12,7 +12,7 @@ class TrendingController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         super.setupViews()
-        navigationItem.title = "Charts"
+        navigationItem.title = "Trending"
         
         videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
 
