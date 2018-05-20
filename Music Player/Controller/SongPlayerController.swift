@@ -49,9 +49,10 @@ class SongPlayerController : UIViewController{
         return view
     }()
     
-    let controlsView: PlayerControlsView = {
+    lazy var controlsView: PlayerControlsView = {
         let view = PlayerControlsView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.videoSlider.addTarget(self, action: #selector(videoSliderValueDidChange), for: .valueChanged)
         return view
     }()
     
@@ -87,13 +88,45 @@ class SongPlayerController : UIViewController{
         loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         loadingView.heightAnchor.constraint(equalToConstant: view.frame.size.height*0.6).isActive = true
     }
+}
+
+extension SongPlayerController : YouTubePlayerDelegate {
+    func playerReady(_ videoPlayer: YouTubePlayerView) {
+        print("player ready")
+        videoPlayerView.play()
+        setVideoDuration(for: videoPlayerView.getDuration()!)
+        setCurrentTime()
+    }
     
+    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
+        print(playerState)
+        if playerState == YouTubePlayerState.Ended {
+            //Increment video index
+            guard var videoIndex = videoIndex else {return}
+            guard let videos = videos else {return}
+            videoIndex += 1
+            //Play next video if index is less than array size
+            if videoIndex < videos.count {
+                videoPlayerView.clear()
+                videoPlayerView.loadVideoID(videos[videoIndex].videoId)
+            }
+        }
+        
+        if playerState == YouTubePlayerState.Playing {
+            loadingView.backgroundColor = UIColor.clear
+            activityIndicator.stopAnimating()
+        }
+    }
+}
+
+//MARK: Controls functions
+extension SongPlayerController {
     fileprivate func getFormattedTime(_ time: String) -> String {
         //Set formatted duration
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
-    
+        
         let newTime = (time as NSString).integerValue
         var formattedString = formatter.string(from: TimeInterval(newTime))!
         
@@ -127,33 +160,8 @@ class SongPlayerController : UIViewController{
             self.controlsView.videoSlider.value = floatTime
         }
     }
-}
-
-extension SongPlayerController : YouTubePlayerDelegate {
-    func playerReady(_ videoPlayer: YouTubePlayerView) {
-        print("player ready")
-        videoPlayerView.play()
-        setVideoDuration(for: videoPlayerView.getDuration()!)
-        setCurrentTime()
-    }
     
-    func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
-        print(playerState)
-        if playerState == YouTubePlayerState.Ended {
-            //Increment video index
-            guard var videoIndex = videoIndex else {return}
-            guard let videos = videos else {return}
-            videoIndex += 1
-            //Play next video if index is less than array size
-            if videoIndex < videos.count {
-                videoPlayerView.clear()
-                videoPlayerView.loadVideoID(videos[videoIndex].videoId)
-            }
-        }
-        
-        if playerState == YouTubePlayerState.Playing {
-            loadingView.backgroundColor = UIColor.clear
-            activityIndicator.stopAnimating()
-        }
+    @objc func videoSliderValueDidChange (){
+        videoPlayerView.seekTo(controlsView.videoSlider.value, seekAhead: true)
     }
 }
