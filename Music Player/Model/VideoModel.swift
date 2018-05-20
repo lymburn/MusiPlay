@@ -84,9 +84,9 @@ class VideoModel : NSObject {
         var youtubeApi = String()
         if nextPage {
             guard let nextPageToken = nextPageToken else {return}
-            youtubeApi = "https://www.googleapis.com/youtube/v3/search?part=\(part)&q=\(query)&pageToken=\(nextPageToken)&maxResults=\(maxResults)&type=video&key=\(apiKey)"
+            youtubeApi = "https://www.googleapis.com/youtube/v3/search?part=\(part)&q=\(query)&pageToken=\(nextPageToken)&maxResults=\(maxResults)&videoCategoryId=10&type=video&key=\(apiKey)"
         } else {
-            youtubeApi = "https://www.googleapis.com/youtube/v3/search?part=\(part)&q=\(query)&maxResults=\(maxResults)&type=video&key=\(apiKey)"
+            youtubeApi = "https://www.googleapis.com/youtube/v3/search?part=\(part)&q=\(query)&maxResults=\(maxResults)&videoCategoryId=10&type=video&key=\(apiKey)"
         }
         
         guard let url = URL(string: youtubeApi) else {return}

@@ -49,9 +49,8 @@ class SongPlayerController : UIViewController{
         return view
     }()
     
-    let controlsView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
+    let controlsView: PlayerControlsView = {
+        let view = PlayerControlsView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -68,6 +67,7 @@ class SongPlayerController : UIViewController{
         view.addSubview(controlsView)
         view.addSubview(loadingView)
         
+        controlsView.videoTitle.text = videos?[videoIndex!].title
         setupConstraints()
     }
     
@@ -87,18 +87,46 @@ class SongPlayerController : UIViewController{
         loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         loadingView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
     }
+    
+    fileprivate func getFormattedTime(_ time: String) -> String {
+        //Set formatted duration
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional
+    
+        let newTime = (time as NSString).integerValue
+        var formattedString = formatter.string(from: TimeInterval(newTime))!
+        //Add 0's if time is less than 10 seconds, 1 minute, and 10 minutes
+        if newTime < 10 {
+            formattedString = "00:0" + formattedString
+        } else if newTime < 60 {
+            formattedString = "00:" + formattedString
+        } else if newTime < 600 {
+            formattedString = "0" + formattedString
+        }
+        
+        return formattedString
+    }
+    
+    fileprivate func setVideoDuration(for duration: String) {
+        controlsView.durationLabel.text = getFormattedTime(duration)
+    }
+    
+    fileprivate func setCurrentTime() {
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) {(Timer) in
+            let currentTime = self.videoPlayerView.getCurrentTime()!
+            let formattedTime = self.getFormattedTime(currentTime)
+            self.controlsView.currentTimeLabel.text = formattedTime
+        }
+    }
 }
 
 extension SongPlayerController : YouTubePlayerDelegate {
     func playerReady(_ videoPlayer: YouTubePlayerView) {
         print("player ready")
         videoPlayerView.play()
-
-        //Remove loading spinner after youtube signs are gone
-        Timer.scheduledTimer(withTimeInterval: 6, repeats: false, block: {(Timer) in
-            self.loadingView.backgroundColor = UIColor.clear
-            self.activityIndicator.stopAnimating()
-        })
+        setVideoDuration(for: videoPlayerView.getDuration()!)
+        setCurrentTime()
     }
     
     func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
@@ -113,6 +141,11 @@ extension SongPlayerController : YouTubePlayerDelegate {
                 videoPlayerView.clear()
                 videoPlayerView.loadVideoID(videos[videoIndex].videoId)
             }
+        }
+        
+        if playerState == YouTubePlayerState.Playing {
+            loadingView.backgroundColor = UIColor.clear
+            activityIndicator.stopAnimating()
         }
     }
 }
