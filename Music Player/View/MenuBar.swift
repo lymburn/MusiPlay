@@ -23,6 +23,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
     let cellId = "cellId"
     let menuIconNames = ["Trending", "Search", "Playlist", "Favourites", "More"]
     weak var delegate: MenuBarDelegate?
+    var iconSelected: String!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,7 +49,17 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
         let image : UIImage? = UIImage(named: menuIconNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
         cell.imageView.image = image
         cell.iconLabel.text = menuIconNames[indexPath.item]
-        cell.tintColor = UIColor.rgb(red: 138, green: 43, blue: 226)
+        
+        let selectedCell : Bool = (iconSelected == menuIconNames[indexPath.item]) ? true : false
+        
+        //If the cell is the currently selected one, set to a color. Else, leave as gray
+        if selectedCell {
+            cell.tintColor = UIColor.blue
+            cell.iconLabel.textColor = UIColor.blue
+        } else {
+            cell.tintColor = UIColor.gray
+            cell.iconLabel.textColor = UIColor.gray
+        }
         
         return cell
     }

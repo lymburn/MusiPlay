@@ -41,7 +41,7 @@ class TrendingController: BaseViewController {
     
     override func setupViews() {
         view.addSubview(tableView)
-        super.setupMenuBar()
+        super.setupMenuBar(iconName: "Trending")
         setConstraints()
     }
 }

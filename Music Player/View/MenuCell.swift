@@ -10,8 +10,10 @@
 import UIKit
 
 class MenuCell: BaseCollectionViewCell {
+    var selectedIcon: String!
+    
     let imageView: UIImageView = {
-        let iv = UIImageView(image: UIImage(named: "Trending"))
+        let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
@@ -22,20 +24,6 @@ class MenuCell: BaseCollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    override var isHighlighted: Bool {
-        didSet {
-            imageView.tintColor = isHighlighted ? UIColor.rgb(red: 138, green: 43, blue: 226) : UIColor.gray
-            iconLabel.textColor = isHighlighted ? UIColor.rgb(red: 138, green: 43, blue: 226) : UIColor.gray
-        }
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            imageView.tintColor = isSelected ? UIColor.rgb(red: 138, green: 43, blue: 226) : UIColor.gray
-            iconLabel.textColor = isSelected ? UIColor.rgb(red: 138, green: 43, blue: 226) : UIColor.gray
-        }
-    }
     
     func setupConstraints() {
         //Image view constraints

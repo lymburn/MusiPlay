@@ -15,9 +15,10 @@ class BaseViewController: UIViewController {
         menuBar.delegate = self
     }
     
-    func setupMenuBar() {
+    func setupMenuBar(iconName: String) {
         view.addSubview(menuBar)
         
+        menuBar.iconSelected = iconName
         menuBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         menuBar.heightAnchor.constraint(equalToConstant: 55).isActive = true
         menuBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true

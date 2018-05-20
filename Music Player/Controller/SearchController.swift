@@ -20,7 +20,7 @@ class SearchController: BaseViewController {
         tableView.dataSource = self
         
         //End editing when tapping outside search bar
-        view.addGestureRecognizer(tap)
+        tableView.addGestureRecognizer(tap)
     }
     let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
     
@@ -36,7 +36,7 @@ class SearchController: BaseViewController {
     override func setupViews() {
         view.addSubview(searchBar)
         view.addSubview(tableView)
-        super.setupMenuBar()
+        super.setupMenuBar(iconName: "Search")
         setConstraints()
     }
     
@@ -127,7 +127,6 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
 //MARK: Video model delegate
 extension SearchController: VideoModelDelegate {
     func dataReady() {
-        print("hellO")
         videos = videoModel.videos
         DispatchQueue.main.async {
             self.tableView.reloadData()
