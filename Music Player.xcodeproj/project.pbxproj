@@ -127,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				264298E620AE1774007830DC /* VideoModel.swift */,
-				26EA15A820B37A1000D6F4A5 /* Storage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				260E01DC20ACD4EB003B7423 /* Extensions.swift */,
+				26EA15A820B37A1000D6F4A5 /* Storage.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";

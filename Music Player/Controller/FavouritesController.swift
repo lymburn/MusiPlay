@@ -18,7 +18,9 @@ class FavouritesController: BaseViewController {
         tableView.dataSource = self
         
         navigationItem.title = "Favourites"
-        videos = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+        if Storage.fileExists("favouriteSongs", in: .documents) {
+            videos = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+        }
     }
     
     let cellId = "cellId"

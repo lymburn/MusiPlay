@@ -15,7 +15,7 @@ protocol SongCellDelegate: class {
 class SongCell : BaseTableViewCell {
     
     weak var delegate: SongCellDelegate?
-    private var songAdded: Bool = false //Track if the song has already been added
+    var songAdded: Bool = false //Track if the song has already been added
     var index: Int! //Cell row
     
     let songImageView : UIImageView = {

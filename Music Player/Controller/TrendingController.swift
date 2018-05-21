@@ -19,11 +19,16 @@ class TrendingController: BaseViewController {
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
         tableView.dataSource = self
+        //Storage.clear(.documents)
+        if Storage.fileExists("favouriteSongs", in: .documents) {
+            favouriteSongs = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+        }
     }
     
     let videoModel = VideoModel()
     var videos = [Video]()
     let cellId = "cellId"
+    var favouriteSongs = [Video]()
     
     let tableView : BaseTableView = {
         let tableView = BaseTableView()
@@ -62,7 +67,22 @@ extension TrendingController: UITableViewDelegate, UITableViewDataSource {
         let data = try? Data(contentsOf: videoThumbnailURL!)
         cell.imageView?.image = UIImage(data: data!)
         
-        //Set the add song button depending on if the
+        //Set the add song button depending on if the song is favourited
+        let videosSet = Set<Video>(videos)
+        let favouritesSet = Set<Video>(favouriteSongs)
+        let intersect = videosSet.intersection(favouritesSet)
+        //Mark songs that intersect as favourited
+        for video in intersect {
+            if video.videoId == videos[indexPath.row].videoId {
+                cell.songAdded = true
+                break
+            } else {
+                cell.songAdded = false
+            }
+        }
+        let addSongButtonText = cell.songAdded ? "✔️" : "➕"
+        cell.addSongButton.setTitle(addSongButtonText, for: .normal)
+        
         return cell
     }
     
@@ -98,11 +118,14 @@ extension TrendingController: VideoModelDelegate {
 extension TrendingController: SongCellDelegate {
     func addSongButtonPressed(index: Int) {
         //Local song storage
-        var favouriteSongs = [Video]()
+        var favourites = [Video]()
         if Storage.fileExists("favouriteSongs", in: .documents) {
-            favouriteSongs = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
-            favouriteSongs.append(videos[index])
+            favourites = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+            favourites.append(videos[index])
+            Storage.store(favourites, to: .documents, as: "favouriteSongs")
+        } else {
+            favourites.append(videos[index])
+            Storage.store(favourites, to: .documents, as: "favouriteSongs")
         }
-        Storage.store(favouriteSongs, to: .documents, as: "favouriteSongs")
     }
 }
