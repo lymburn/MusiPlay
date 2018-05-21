@@ -53,18 +53,21 @@ class PlayerControlsView: UIView {
     
     let previousVideoButton: UIButton = {
         let button = UIButton()
+        button.setImage(UIImage(named: "Previous.png"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     let nextVideoButton: UIButton = {
         let button = UIButton()
+        button.setImage(UIImage(named: "Next.png"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     let pauseButton: UIButton = {
         let button = UIButton()
+        button.setImage(UIImage(named: "Play.png"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -95,10 +98,11 @@ extension PlayerControlsView {
         addSubview(currentTimeLabel)
         addSubview(durationLabel)
         addSubview(videoSlider)
-        /*
+        
         addSubview(previousVideoButton)
         addSubview(nextVideoButton)
         addSubview(pauseButton)
+        /*
         addSubview(lowerVolume)
         addSubview(higherVolume)
         addSubview(volumeSlider)
@@ -123,14 +127,20 @@ extension PlayerControlsView {
         videoSlider.topAnchor.constraint(equalTo: videoTitle.bottomAnchor, constant: 32).isActive = true
         videoSlider.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
-        /*
-        previousVideoButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        previousVideoButton.trailingAnchor.constraint(equalTo: videoSlider.leadingAnchor, constant: 16).isActive = true
-        previousVideoButton.topAnchor.constraint(equalTo: currentTimeLabel.bottomAnchor, constant: 16).isActive = true
         
-        pauseButton.leadingAnchor.constraint(equalTo: currentTimeLabel.trailingAnchor, constant: 16).isActive = true
-        pauseButton.trailingAnchor.constraint(equalTo: durationLabel.leadingAnchor, constant: 16).isActive = true
-        pauseButton.topAnchor.constraint(equalTo: videoTitle.bottomAnchor, constant: 16).isActive = true
- */
+        previousVideoButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32).isActive = true
+        previousVideoButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        previousVideoButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        previousVideoButton.topAnchor.constraint(equalTo: currentTimeLabel.bottomAnchor, constant: 32).isActive = true
+        
+        pauseButton.topAnchor.constraint(equalTo: videoSlider.bottomAnchor, constant: 32).isActive = true
+        pauseButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        pauseButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        pauseButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        nextVideoButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        nextVideoButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        nextVideoButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32).isActive = true
+        nextVideoButton.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 32).isActive = true
     }
 }

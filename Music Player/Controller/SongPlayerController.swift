@@ -28,9 +28,17 @@ class SongPlayerController : UIViewController{
         
         guard let videoIndex = videoIndex else {return}
         guard let videos = videos else {return}
+        videoPlayerView.clear()
         videoPlayerView.loadVideoID(videos[videoIndex].videoId)
         
         setActivityIndicator()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if self.isMovingFromParentViewController {
+            videoPlayerView.stop()
+            videoPlayerView.clear()
+        }
     }
     
     //Loading animation
@@ -108,6 +116,7 @@ extension SongPlayerController : YouTubePlayerDelegate {
             //Play next video if index is less than array size
             if videoIndex < videos.count {
                 videoPlayerView.clear()
+                controlsView.videoTitle.text = videos[videoIndex].title
                 videoPlayerView.loadVideoID(videos[videoIndex].videoId)
             }
         }
