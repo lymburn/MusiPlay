@@ -50,7 +50,10 @@ extension BaseViewController : MenuBarDelegate {
                 let nav = UINavigationController(rootViewController: controller)
                 present(nav, animated: false, completion: nil)
             case "Playlist":break
-            case "Favourites":break
+            case "Favourites":
+                let controller = FavouritesController()
+                let nav = UINavigationController(rootViewController: controller)
+                present(nav, animated: false, completion: nil)
             case "More":break
             default:break
         }

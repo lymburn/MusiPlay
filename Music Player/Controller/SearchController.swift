@@ -100,6 +100,8 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
         cell.becomeFirstResponder()
         cell.selectionStyle = .none
+        cell.index = indexPath.row
+        cell.delegate = self
         cell.songTitle.text = videos[indexPath.row].title
         cell.channelLabel.text = videos[indexPath.row].channel
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
@@ -131,5 +133,12 @@ extension SearchController: VideoModelDelegate {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+//MARK: Song cell delegate
+extension SearchController: SongCellDelegate {
+    func addSongButtonPressed(index: Int) {
+        
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Video {
+struct Video: Codable {
     let title: String
     let thumbnailURL: String
     let channel: String

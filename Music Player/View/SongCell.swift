@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol SongCellDelegate: class {
+    func addSongButtonPressed(index: Int)
+}
+
 class SongCell : BaseTableViewCell {
+    
+    weak var delegate: SongCellDelegate?
+    private var songAdded: Bool = false //Track if the song has already been added
+    var index: Int! //Cell row
     
     let songImageView : UIImageView = {
         var imageView = UIImageView()
@@ -25,7 +33,7 @@ class SongCell : BaseTableViewCell {
         textView.isUserInteractionEnabled = false
         textView.textContainer.maximumNumberOfLines = 2
         textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.font = UIFont(name: "Helvetica Neue", size: 16)
+        textView.font = UIFont(name: "Helvetica Neue", size: 14)
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         //Allows for auto resizing
@@ -37,6 +45,15 @@ class SongCell : BaseTableViewCell {
             }
         }
         return textView
+    }()
+    
+    lazy var addSongButton: UIButton = {
+        var button = UIButton()
+        button.setTitle("➕", for: .normal)
+        button.titleLabel!.font = UIFont(name: button.titleLabel!.font.fontName, size: 14)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addSong), for: .touchDown)
+        return button
     }()
     
     let channelLabel : UILabel = {
@@ -53,6 +70,7 @@ class SongCell : BaseTableViewCell {
         addSubview(songImageView)
         addSubview(songTitle)
         addSubview(channelLabel)
+        addSubview(addSongButton)
         setConstraints()
     }
     
@@ -65,12 +83,25 @@ class SongCell : BaseTableViewCell {
         
         //Song title constraints
         songTitle.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 8).isActive = true
-        songTitle.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        songTitle.trailingAnchor.constraint(equalTo: addSongButton.leadingAnchor, constant: -16).isActive = true
         songTitle.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
         
         //Song duration constraints
         channelLabel.leadingAnchor.constraint(equalTo: songImageView.trailingAnchor, constant: 12).isActive = true
-        channelLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16).isActive = true
+        channelLabel.trailingAnchor.constraint(equalTo: addSongButton.leadingAnchor, constant: -16).isActive = true
         channelLabel.topAnchor.constraint(equalTo: songTitle.bottomAnchor).isActive = true
+        
+        //Add song button constraints
+        addSongButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        addSongButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8).isActive = true
+        addSongButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
+    @objc func addSong() {
+        if !songAdded {
+            self.delegate?.addSongButtonPressed(index: index)
+            addSongButton.setTitle("✔️", for: .normal)
+            songAdded = true
+        }
     }
 }

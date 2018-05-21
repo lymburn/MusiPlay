@@ -26,6 +26,7 @@ class PlayerControlsView: UIView {
         label.font = UIFont(name: label.font.fontName, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.type = .continuous
+        label.textAlignment = .center
         label.speed = .rate(40)
         label.fadeLength = 40.0
         label.labelWillBeginScroll()
