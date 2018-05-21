@@ -11,7 +11,6 @@ import UIKit
 class TrendingController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        super.setupViews()
         navigationItem.title = "Trending"
         
         videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
@@ -39,6 +38,7 @@ class TrendingController: BaseViewController {
     }
     
     override func setupViews() {
+        super.setupViews()
         view.addSubview(tableView)
         super.setupMenuBar(iconName: "Trending")
         setConstraints()
@@ -61,6 +61,8 @@ extension TrendingController: UITableViewDelegate, UITableViewDataSource {
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
         let data = try? Data(contentsOf: videoThumbnailURL!)
         cell.imageView?.image = UIImage(data: data!)
+        
+        //Set the add song button depending on if the
         return cell
     }
     
@@ -95,6 +97,12 @@ extension TrendingController: VideoModelDelegate {
 //MARK: Song cell delegate
 extension TrendingController: SongCellDelegate {
     func addSongButtonPressed(index: Int) {
-    
+        //Local song storage
+        var favouriteSongs = [Video]()
+        if Storage.fileExists("favouriteSongs", in: .documents) {
+            favouriteSongs = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+            favouriteSongs.append(videos[index])
+        }
+        Storage.store(favouriteSongs, to: .documents, as: "favouriteSongs")
     }
 }

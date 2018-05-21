@@ -228,5 +228,4 @@ extension SongPlayerController {
         videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
         controlsView.videoTitle.text = videos[videoIndex!].title
     }
-    
 }

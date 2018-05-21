@@ -11,15 +11,26 @@ import UIKit
 class FavouritesController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.white
+        
+        tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         navigationItem.title = "Favourites"
+        videos = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
     }
     
     let cellId = "cellId"
+    var videos = [Video]()
     
     override func setupViews() {
         super.setupViews()
+        super.setupViews()
         view.addSubview(tableView)
         super.setupMenuBar(iconName: "Favourites")
+        
+        setConstraints()
     }
     
     let tableView: BaseTableView = {
@@ -46,7 +57,6 @@ extension FavouritesController: UITableViewDelegate, UITableViewDataSource {
         cell.becomeFirstResponder()
         cell.selectionStyle = .none
         cell.index = indexPath.row
-        cell.delegate = self
         cell.songTitle.text = videos[indexPath.row].title
         cell.channelLabel.text = videos[indexPath.row].channel
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
@@ -60,14 +70,5 @@ extension FavouritesController: UITableViewDelegate, UITableViewDataSource {
         playerController.videoIndex = indexPath.row
         playerController.videos = videos
         self.navigationController?.pushViewController(playerController, animated: false)
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        //Fetch more videos when scrolled to bottom
-        let lastElement = videos.count - 1
-        if indexPath.row == lastElement {
-            guard let query = query else {return}
-            videoModel.fetchMoreSongs(search: true, query: query)
-        }
     }
 }
