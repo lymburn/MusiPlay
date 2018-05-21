@@ -15,6 +15,7 @@ class SongPlayerController : UIViewController{
     var videoIndex: Int? = nil
     var videos : [Video]? = nil
     var activityIndicator: NVActivityIndicatorView!
+    var videoIsPlaying: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,9 @@ class SongPlayerController : UIViewController{
         let view = PlayerControlsView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.videoSlider.addTarget(self, action: #selector(videoSliderValueDidChange), for: .valueChanged)
+        view.pauseButton.addTarget(self, action: #selector(pauseButtonPressed), for: .touchDown)
+        view.nextVideoButton.addTarget(self, action: #selector(nextVideoPressed), for: .touchDown)
+        view.previousVideoButton.addTarget(self, action: #selector(previousVideoPressed), for: .touchDown)
         return view
     }()
     
@@ -110,20 +114,31 @@ extension SongPlayerController : YouTubePlayerDelegate {
         print(playerState)
         if playerState == YouTubePlayerState.Ended {
             //Increment video index
-            guard var videoIndex = videoIndex else {return}
-            guard let videos = videos else {return}
-            videoIndex += 1
-            //Play next video if index is less than array size
-            if videoIndex < videos.count {
-                videoPlayerView.clear()
-                controlsView.videoTitle.text = videos[videoIndex].title
-                videoPlayerView.loadVideoID(videos[videoIndex].videoId)
+            if videoIndex == nil {
+                return
             }
+            guard let videos = videos else {return}
+            videoIndex! += 1
+            videoIsPlaying = false
+            //Play next video if index is less than array size
+            if videoIndex! >= videos.count {
+                videoIndex = 0
+            }
+            videoPlayerView.clear()
+            controlsView.videoTitle.text = videos[videoIndex!].title
+            videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
         }
         
         if playerState == YouTubePlayerState.Playing {
             loadingView.backgroundColor = UIColor.clear
             activityIndicator.stopAnimating()
+            controlsView.pauseButton.setImage(UIImage(named: "Pause.png"), for: .normal)
+            videoIsPlaying = true
+        }
+        
+        if playerState == YouTubePlayerState.Paused {
+            controlsView.pauseButton.setImage(UIImage(named: "Play.png"), for: .normal)
+            videoIsPlaying = false
         }
     }
 }
@@ -172,5 +187,45 @@ extension SongPlayerController {
     
     @objc func videoSliderValueDidChange (){
         videoPlayerView.seekTo(controlsView.videoSlider.value, seekAhead: true)
+    }
+    
+    @objc func pauseButtonPressed() {
+        if videoIsPlaying {
+            videoPlayerView.pause()
+        } else {
+            videoPlayerView.play()
+        }
+    }
+    
+    @objc func nextVideoPressed() {
+        videoPlayerView.clear()
+        guard let videos = videos else {return}
+        if videoIndex == nil {
+            return
+        }
+        videoIndex! += 1
+        print(videoIndex!)
+        //If video index is out of range, go to first video of array
+        if videoIndex! >= videos.count {
+            videoIndex = 0
+        }
+        videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
+        controlsView.videoTitle.text = videos[videoIndex!].title
+    }
+    
+    @objc func previousVideoPressed() {
+        videoPlayerView.clear()
+        guard let videos = videos else {return}
+        if videoIndex == nil {
+            return
+        }
+        print(videoIndex!)
+        videoIndex! -= 1
+        //If video index is out of range, go to last video of array
+        if videoIndex! < 0 {
+            videoIndex = videos.count - 1
+        }
+        videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
+        controlsView.videoTitle.text = videos[videoIndex!].title
     }
 }

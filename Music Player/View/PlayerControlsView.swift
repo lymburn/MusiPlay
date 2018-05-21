@@ -67,7 +67,7 @@ class PlayerControlsView: UIView {
     
     let pauseButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Play.png"), for: .normal)
+        button.setImage(UIImage(named: "Pause.png"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
