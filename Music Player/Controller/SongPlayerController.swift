@@ -65,7 +65,6 @@ class SongPlayerController : UIViewController{
         view.pauseButton.addTarget(self, action: #selector(pauseButtonPressed), for: .touchDown)
         view.nextVideoButton.addTarget(self, action: #selector(nextVideoPressed), for: .touchDown)
         view.previousVideoButton.addTarget(self, action: #selector(previousVideoPressed), for: .touchDown)
-        //view.volumeSlider.addTarget(self, action: #selector(volumeSliderValueDidChange), for: .valueChanged)
         return view
     }()
     

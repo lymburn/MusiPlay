@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import MarqueeLabel
 
 class PlayerControlsView: UIView {
     override init(frame: CGRect) {
@@ -20,10 +21,14 @@ class PlayerControlsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let videoTitle: UILabel = {
-        let label = UILabel()
+    let videoTitle: MarqueeLabel = {
+        let label = MarqueeLabel()
         label.font = UIFont(name: label.font.fontName, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.type = .continuous
+        label.speed = .rate(40)
+        label.fadeLength = 40.0
+        label.labelWillBeginScroll()
         return label
     }()
     
@@ -48,7 +53,7 @@ class PlayerControlsView: UIView {
     let videoSlider: UISlider = {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.minimumTrackTintColor = .purple
+        slider.minimumTrackTintColor = .black
         return slider
     }()
     
@@ -68,7 +73,7 @@ class PlayerControlsView: UIView {
     
     let pauseButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Pause.png"), for: .normal)
+        button.setImage(UIImage(named: "Play.png"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -89,10 +94,9 @@ class PlayerControlsView: UIView {
         let volume = MPVolumeView()
         var volumeSlider = UISlider()
         if let slider = volume.subviews.first as? UISlider {
-            print("hu")
             volumeSlider = slider
-            slider.translatesAutoresizingMaskIntoConstraints = false
-            slider.minimumTrackTintColor = UIColor.black
+            volumeSlider.translatesAutoresizingMaskIntoConstraints = false
+            volumeSlider.minimumTrackTintColor = UIColor.black
         }
         return volumeSlider
     }()
@@ -120,7 +124,8 @@ extension PlayerControlsView {
     fileprivate func setupConstraints() {
         //Title Constraints
         videoTitle.bottomAnchor.constraint(equalTo: videoSlider.topAnchor, constant: -24).isActive = true
-        videoTitle.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        videoTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        videoTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
         
         //Video time controls
         currentTimeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
@@ -138,17 +143,17 @@ extension PlayerControlsView {
 
         //Playback controls
         previousVideoButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32).isActive = true
-        previousVideoButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        previousVideoButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        previousVideoButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        previousVideoButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         previousVideoButton.bottomAnchor.constraint(equalTo: lowerVolume.topAnchor, constant: -24).isActive = true
         
         pauseButton.bottomAnchor.constraint(equalTo: volumeSlider.topAnchor, constant: -24).isActive = true
         pauseButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        pauseButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        pauseButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        pauseButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        pauseButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        nextVideoButton.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        nextVideoButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        nextVideoButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        nextVideoButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         nextVideoButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32).isActive = true
         nextVideoButton.bottomAnchor.constraint(equalTo: higherVolume.topAnchor, constant: -24).isActive = true
         
