@@ -22,6 +22,10 @@ class SearchController: BaseViewController {
         
         //End editing when tapping outside search bar
         tableView.addGestureRecognizer(tap)
+        
+        if Storage.fileExists("favouriteSongs", in: .documents) {
+            favouriteSongs = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+        }
     }
     let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
     
@@ -29,6 +33,7 @@ class SearchController: BaseViewController {
     var videos = [Video]()
     let cellId = "cellId"
     var query: String? = nil
+    var favouriteSongs = [Video]()
     
     @objc func dismissKeyboard() {
         searchBar.endEditing(true)
@@ -107,6 +112,27 @@ extension SearchController: UITableViewDelegate, UITableViewDataSource {
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
         let data = try? Data(contentsOf: videoThumbnailURL!)
         cell.imageView?.image = UIImage(data: data!)
+        
+        //Set the add song button depending on if the song is favourited
+        let videosSet = Set<Video>(videos)
+        let favouritesSet = Set<Video>(favouriteSongs)
+        let intersect = videosSet.intersection(favouritesSet)
+        //Mark songs that intersect as favourited
+        if intersect.count > 0 {
+            for video in intersect {
+                if video.videoId == videos[indexPath.row].videoId {
+                    cell.songAdded = true
+                    break
+                } else {
+                    cell.songAdded = false
+                }
+            }
+        } else {
+            cell.songAdded = false
+        }
+        let addSongButtonText = cell.songAdded ? "✔️" : "➕"
+        cell.addSongButton.setTitle(addSongButtonText, for: .normal)
+        
         return cell
     }
     
@@ -139,6 +165,15 @@ extension SearchController: VideoModelDelegate {
 //MARK: Song cell delegate
 extension SearchController: SongCellDelegate {
     func addSongButtonPressed(index: Int) {
-        
+        //Local song storage
+        var favourites = [Video]()
+        if Storage.fileExists("favouriteSongs", in: .documents) {
+            favourites = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
+            favourites.append(videos[index])
+            Storage.store(favourites, to: .documents, as: "favouriteSongs")
+        } else {
+            favourites.append(videos[index])
+            Storage.store(favourites, to: .documents, as: "favouriteSongs")
+        }
     }
 }

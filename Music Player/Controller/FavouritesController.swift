@@ -102,4 +102,17 @@ extension FavouritesController: UITableViewDelegate, UITableViewDataSource {
         playerController.videos = videos
         self.navigationController?.pushViewController(playerController, animated: false)
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            //Remove video from storage and update
+            videos.remove(at: indexPath.row)
+            Storage.store(videos, to: .documents, as: "favouriteSongs")
+            tableView.reloadData()
+        }
+    }
 }

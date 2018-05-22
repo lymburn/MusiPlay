@@ -14,7 +14,6 @@ import NVActivityIndicatorView
 class SongPlayerController : UIViewController{
     var videoIndex: Int? = nil
     var videos : [Video]? = nil
-    var fullVideosArray: [Video]? = nil
     var activityIndicator: NVActivityIndicatorView!
     var videoIsPlaying: Bool = false
     var shuffleMode: Bool = false
@@ -33,8 +32,6 @@ class SongPlayerController : UIViewController{
         guard let videos = videos else {return}
         videoPlayerView.clear()
         videoPlayerView.loadVideoID(videos[videoIndex].videoId)
-        
-        fullVideosArray = videos
         
         setActivityIndicator()
     }
@@ -211,7 +208,7 @@ extension SongPlayerController {
     
     @objc func nextVideoPressed() {
         videoPlayerView.clear()
-        guard var videos = videos else {return}
+        guard let videos = videos else {return}
         if videoIndex == nil {
             return
         }
@@ -227,15 +224,10 @@ extension SongPlayerController {
             controlsView.videoTitle.text = videos[videoIndex!].title
         } else {
             //If shuffling, pick random song
-            if videos.count == 0 {
-                videos = 
-            }
             let upper = UInt32(videos.count - 1)
             let randIndex = Int(arc4random_uniform(upper))
             videoPlayerView.loadVideoID(videos[randIndex].videoId)
             controlsView.videoTitle.text = videos[randIndex].title
-            //Remove video from array to prevent chance of shuffling to the same song again
-            videos.remove(at: randIndex)
         }
     }
     
