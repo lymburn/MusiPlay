@@ -8,13 +8,6 @@
 
 import UIKit
 
-struct Video: Codable, Hashable {
-    let title: String
-    let thumbnailURL: String
-    let channel: String
-    let videoId: String
-}
-
 protocol VideoModelDelegate: class {
     //Indicate when the songs are requested
     func dataReady()

@@ -106,6 +106,8 @@ extension PlaylistController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
+            playlists.remove(at: indexPath.row)
+            Storage.store(playlists, to: .documents, as: "playlists")
             tableView.reloadData()
         }
     }
