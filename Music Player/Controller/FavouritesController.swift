@@ -28,8 +28,8 @@ class FavouritesController: BaseViewController {
     
     override func setupViews() {
         super.setupViews()
-        super.setupViews()
         view.addSubview(tableView)
+        view.addSubview(shuffleButton)
         super.setupMenuBar(iconName: "Favourites")
         
         setConstraints()
@@ -40,10 +40,37 @@ class FavouritesController: BaseViewController {
         return tb
     }()
     
+    let shuffleButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Shuffle", for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        button.contentHorizontalAlignment = .left
+        button.addTarget(self, action: #selector(shuffleButtonPressed), for: .touchDown)
+        return button
+    }()
+    
+    @objc func shuffleButtonPressed() {
+        //Pick a random song and play it
+        let upper = UInt32(videos.count - 1)
+        let randomIndex = arc4random_uniform(upper)
+        let playerController = SongPlayerController()
+        playerController.videoIndex = Int(randomIndex)
+        playerController.videos = videos
+        playerController.shuffleMode = true
+        self.navigationController?.pushViewController(playerController, animated: false)
+    }
+    
     private func setConstraints() {
+        shuffleButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        shuffleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        shuffleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        shuffleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: shuffleButton.bottomAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
 }

@@ -14,8 +14,10 @@ import NVActivityIndicatorView
 class SongPlayerController : UIViewController{
     var videoIndex: Int? = nil
     var videos : [Video]? = nil
+    var fullVideosArray: [Video]? = nil
     var activityIndicator: NVActivityIndicatorView!
     var videoIsPlaying: Bool = false
+    var shuffleMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +33,8 @@ class SongPlayerController : UIViewController{
         guard let videos = videos else {return}
         videoPlayerView.clear()
         videoPlayerView.loadVideoID(videos[videoIndex].videoId)
+        
+        fullVideosArray = videos
         
         setActivityIndicator()
     }
@@ -118,15 +122,23 @@ extension SongPlayerController : YouTubePlayerDelegate {
                 return
             }
             guard let videos = videos else {return}
-            videoIndex! += 1
-            videoIsPlaying = false
-            //Play next video if index is less than array size
-            if videoIndex! >= videos.count {
-                videoIndex = 0
-            }
             videoPlayerView.clear()
-            controlsView.videoTitle.text = videos[videoIndex!].title
-            videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
+            if !shuffleMode {
+                videoIndex! += 1
+                videoIsPlaying = false
+                //Play next video if index is less than array size
+                if videoIndex! >= videos.count {
+                    videoIndex = 0
+                }
+                controlsView.videoTitle.text = videos[videoIndex!].title
+                videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
+            } else {
+                //If shuffling, pick random song
+                let upper = UInt32(videos.count - 1)
+                let randIndex = Int(arc4random_uniform(upper))
+                videoPlayerView.loadVideoID(videos[randIndex].videoId)
+                controlsView.videoTitle.text = videos[randIndex].title
+            }
         }
         
         if playerState == YouTubePlayerState.Playing {
@@ -199,18 +211,32 @@ extension SongPlayerController {
     
     @objc func nextVideoPressed() {
         videoPlayerView.clear()
-        guard let videos = videos else {return}
+        guard var videos = videos else {return}
         if videoIndex == nil {
             return
         }
-        videoIndex! += 1
-        print(videoIndex!)
-        //If video index is out of range, go to first video of array
-        if videoIndex! >= videos.count {
-            videoIndex = 0
+        
+        //If not shuffling, play next song
+        if !shuffleMode {
+            videoIndex! += 1
+            //If video index is out of range, go to first video of array
+            if videoIndex! >= videos.count {
+                videoIndex = 0
+            }
+            videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
+            controlsView.videoTitle.text = videos[videoIndex!].title
+        } else {
+            //If shuffling, pick random song
+            if videos.count == 0 {
+                videos = 
+            }
+            let upper = UInt32(videos.count - 1)
+            let randIndex = Int(arc4random_uniform(upper))
+            videoPlayerView.loadVideoID(videos[randIndex].videoId)
+            controlsView.videoTitle.text = videos[randIndex].title
+            //Remove video from array to prevent chance of shuffling to the same song again
+            videos.remove(at: randIndex)
         }
-        videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
-        controlsView.videoTitle.text = videos[videoIndex!].title
     }
     
     @objc func previousVideoPressed() {
@@ -219,13 +245,21 @@ extension SongPlayerController {
         if videoIndex == nil {
             return
         }
-        print(videoIndex!)
-        videoIndex! -= 1
-        //If video index is out of range, go to last video of array
-        if videoIndex! < 0 {
-            videoIndex = videos.count - 1
+        
+        if !shuffleMode {
+            videoIndex! -= 1
+            //If video index is out of range, go to last video of array
+            if videoIndex! < 0 {
+                videoIndex = videos.count - 1
+            }
+            videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
+            controlsView.videoTitle.text = videos[videoIndex!].title
+        } else {
+            //If shuffling, pick random song
+            let upper = UInt32(videos.count - 1)
+            let randIndex = Int(arc4random_uniform(upper))
+            videoPlayerView.loadVideoID(videos[randIndex].videoId)
+            controlsView.videoTitle.text = videos[randIndex].title
         }
-        videoPlayerView.loadVideoID(videos[videoIndex!].videoId)
-        controlsView.videoTitle.text = videos[videoIndex!].title
     }
 }
