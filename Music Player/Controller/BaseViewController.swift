@@ -54,7 +54,6 @@ extension BaseViewController : MenuBarDelegate {
                 let controller = FavouritesController()
                 let nav = UINavigationController(rootViewController: controller)
                 present(nav, animated: false, completion: nil)
-            case "More":break
             default:break
         }
     }

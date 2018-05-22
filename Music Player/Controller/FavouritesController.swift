@@ -61,6 +61,8 @@ extension FavouritesController: UITableViewDelegate, UITableViewDataSource {
         cell.index = indexPath.row
         cell.songTitle.text = videos[indexPath.row].title
         cell.channelLabel.text = videos[indexPath.row].channel
+        cell.addSongButton.isUserInteractionEnabled = false
+        cell.addSongButton.setTitle("", for: .normal)
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
         let data = try? Data(contentsOf: videoThumbnailURL!)
         cell.imageView?.image = UIImage(data: data!)
