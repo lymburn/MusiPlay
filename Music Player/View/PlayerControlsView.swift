@@ -35,7 +35,7 @@ class PlayerControlsView: UIView {
     
     let currentTimeLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: label.font.fontName, size: 16)
+        label.font = UIFont(name: label.font.fontName, size: 13)
         label.text = "00:00"
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class PlayerControlsView: UIView {
     
     let durationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: label.font.fontName, size: 16)
+        label.font = UIFont(name: label.font.fontName, size: 13)
         label.text = "00:00"
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false

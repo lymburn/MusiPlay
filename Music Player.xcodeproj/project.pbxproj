@@ -25,6 +25,8 @@
 		26488A1920AFD679000AF994 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26488A1820AFD679000AF994 /* BaseViewController.swift */; };
 		26488A1D20B0CF9B000AF994 /* BaseTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26488A1C20B0CF9B000AF994 /* BaseTableView.swift */; };
 		268F658920B2040C00C79523 /* PlayerControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268F658820B2040C00C79523 /* PlayerControlsView.swift */; };
+		26D3E5D820B4AA040035666E /* PlaylistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3E5D720B4AA040035666E /* PlaylistController.swift */; };
+		26D3E5DA20B4AC600035666E /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3E5D920B4AC600035666E /* PlaylistCell.swift */; };
 		26EA15A720B3780D00D6F4A5 /* FavouritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EA15A620B3780D00D6F4A5 /* FavouritesController.swift */; };
 		26EA15A920B37A1000D6F4A5 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EA15A820B37A1000D6F4A5 /* Storage.swift */; };
 		9788F7B4DF4AD9E42477A291 /* Pods_Music_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3752BDB10DFE1551E577AD /* Pods_Music_Player.framework */; };
@@ -51,6 +53,8 @@
 		26488A1820AFD679000AF994 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		26488A1C20B0CF9B000AF994 /* BaseTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableView.swift; sourceTree = "<group>"; };
 		268F658820B2040C00C79523 /* PlayerControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlsView.swift; sourceTree = "<group>"; };
+		26D3E5D720B4AA040035666E /* PlaylistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistController.swift; sourceTree = "<group>"; };
+		26D3E5D920B4AC600035666E /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
 		26EA15A620B3780D00D6F4A5 /* FavouritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesController.swift; sourceTree = "<group>"; };
 		26EA15A820B37A1000D6F4A5 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7F08F5C093B050F9027FCFCF /* Pods-Music Player.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Music Player.release.xcconfig"; path = "Pods/Target Support Files/Pods-Music Player/Pods-Music Player.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 				26488A1620AFCBED000AF994 /* SearchController.swift */,
 				26488A1820AFD679000AF994 /* BaseViewController.swift */,
 				26EA15A620B3780D00D6F4A5 /* FavouritesController.swift */,
+				26D3E5D720B4AA040035666E /* PlaylistController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -136,6 +141,7 @@
 			children = (
 				260E01E020ACD841003B7423 /* BaseTableViewCell.swift */,
 				260E01D920ACBEF0003B7423 /* SongCell.swift */,
+				26D3E5D920B4AC600035666E /* PlaylistCell.swift */,
 				260E01DE20ACD822003B7423 /* MenuBar.swift */,
 				260E01E220ACDC7F003B7423 /* MenuCell.swift */,
 				260E01E420ACDD18003B7423 /* BaseCollectionViewCell.swift */,
@@ -296,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26EA15A720B3780D00D6F4A5 /* FavouritesController.swift in Sources */,
+				26D3E5D820B4AA040035666E /* PlaylistController.swift in Sources */,
 				260E01E320ACDC7F003B7423 /* MenuCell.swift in Sources */,
 				260E01E520ACDD18003B7423 /* BaseCollectionViewCell.swift in Sources */,
 				260E01C620ACB459003B7423 /* TrendingController.swift in Sources */,
@@ -305,6 +312,7 @@
 				260E01C420ACB459003B7423 /* AppDelegate.swift in Sources */,
 				260E01DD20ACD4EB003B7423 /* Extensions.swift in Sources */,
 				26488A1D20B0CF9B000AF994 /* BaseTableView.swift in Sources */,
+				26D3E5DA20B4AC600035666E /* PlaylistCell.swift in Sources */,
 				268F658920B2040C00C79523 /* PlayerControlsView.swift in Sources */,
 				26488A1720AFCBED000AF994 /* SearchController.swift in Sources */,
 				260E01E120ACD841003B7423 /* BaseTableViewCell.swift in Sources */,
