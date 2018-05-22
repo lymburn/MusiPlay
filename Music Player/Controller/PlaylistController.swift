@@ -11,15 +11,6 @@ import UIKit
 class PlaylistController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    let cellId = "cellId"
-    var videos = [Video]()
-    
-    override func setupViews() {
-        super.setupViews()
-        view.addSubview(tableView)
-        super.setupMenuBar(iconName: "Playlist")
         
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
@@ -28,6 +19,18 @@ class PlaylistController: BaseViewController {
         navigationItem.title = "Playlist"
         navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPlaylistButton)), animated: true)
         
+        if Storage.fileExists("playlists", in: .documents) {
+            playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
+        }
+    }
+    
+    let cellId = "cellId"
+    var playlists = [Playlist]()
+    
+    override func setupViews() {
+        super.setupViews()
+        view.addSubview(tableView)
+        super.setupMenuBar(iconName: "Playlist")
         setConstraints()
     }
     
@@ -37,8 +40,38 @@ class PlaylistController: BaseViewController {
     }()
     
     @objc func addPlaylistButton() {
-        print("hi")
+        //Alert to create new playlist
+        let newPlaylistController = UIAlertController(title: "New Playlist", message: "", preferredStyle: .alert)
+        newPlaylistController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Playlist name"
+        }
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+            //Save new playlist
+            let nameTextField = newPlaylistController.textFields![0] as UITextField
+            let newPlaylist = Playlist(videos: [Video](), title: nameTextField.text!, numOfItems: 0)
+            self.storeNewPlaylist(playlist: newPlaylist)
+            self.tableView.reloadData()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        newPlaylistController.addAction(saveAction)
+        newPlaylistController.addAction(cancelAction)
+        
+        present(newPlaylistController, animated: true, completion: nil)
     }
+    
+    private func storeNewPlaylist(playlist: Playlist) {
+        if Storage.fileExists("playlists", in: .documents) {
+            playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
+            playlists.append(playlist)
+            Storage.store(playlists, to: .documents, as: "playlists")
+        } else {
+            playlists.append(playlist)
+            Storage.store(playlists, to: .documents, as: "playlists")
+        }
+    }
+
     
     private func setConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -51,13 +84,15 @@ class PlaylistController: BaseViewController {
 //MARK: Table view delegate and data source
 extension PlaylistController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return videos.count
+        return playlists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SongCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PlaylistCell
         cell.becomeFirstResponder()
         cell.selectionStyle = .none
+        cell.title.text = playlists[indexPath.row].title
+        cell.itemCount.text = "\(playlists[indexPath.row].numOfItems) items"
         return cell
     }
     
@@ -71,9 +106,6 @@ extension PlaylistController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
-            //Remove video from storage and update
-            videos.remove(at: indexPath.row)
-            Storage.store(videos, to: .documents, as: "favouriteSongs")
             tableView.reloadData()
         }
     }
