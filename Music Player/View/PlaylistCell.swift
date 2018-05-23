@@ -13,7 +13,7 @@ class PlaylistCell: BaseTableViewCell {
     var title : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Helvetica", size: 24)
+        label.font = UIFont(name: "Helvetica", size: 18)
         return label
     }()
     
@@ -26,7 +26,7 @@ class PlaylistCell: BaseTableViewCell {
     var itemCount: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Helvetica", size: 16)
+        label.font = UIFont(name: "Helvetica", size: 13)
         label.textColor = UIColor.gray
         return label
     }()
@@ -42,8 +42,8 @@ class PlaylistCell: BaseTableViewCell {
     private func setConstraints() {
         thumbnail.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
         thumbnail.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        thumbnail.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        thumbnail.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        thumbnail.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        thumbnail.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         
         //Song title constraints
@@ -54,7 +54,7 @@ class PlaylistCell: BaseTableViewCell {
         //Song duration constraints
         itemCount.leadingAnchor.constraint(equalTo: thumbnail.trailingAnchor, constant: 16).isActive = true
         itemCount.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
-        itemCount.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 8).isActive = true
+        itemCount.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16).isActive = true
  
     }
 }
