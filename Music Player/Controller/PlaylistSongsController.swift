@@ -18,11 +18,29 @@ class PlaylistSongsController: BaseViewController {
         tableView.dataSource = self
         
         navigationItem.title = playlistName
+        navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPlaylistSong)), animated: true)
+        
+        if Storage.fileExists("playlists", in: .documents) {
+            let playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
+            videos = playlists[playlistIndex].videos
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //Reload songs data
+        if Storage.fileExists("playlists", in: .documents) {
+            var playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
+            videos = playlists[playlistIndex].videos
+            playlists[playlistIndex].numOfItems = videos.count
+            Storage.store(playlists, to: .documents, as: "playlists")
+        }
+        tableView.reloadData()
     }
     
     let cellId = "cellId"
     var videos = [Video]()
     var playlistName: String!
+    var playlistIndex: Int!
     
     override func setupViews() {
         super.setupViews()
@@ -50,13 +68,21 @@ class PlaylistSongsController: BaseViewController {
     
     @objc func shuffleButtonPressed() {
         //Pick a random song and play it
-        let upper = UInt32(videos.count - 1)
-        let randomIndex = arc4random_uniform(upper)
-        let playerController = SongPlayerController()
-        playerController.videoIndex = Int(randomIndex)
-        playerController.videos = videos
-        playerController.shuffleMode = true
-        self.navigationController?.pushViewController(playerController, animated: false)
+        if videos.count > 0 {
+            let upper = UInt32(videos.count - 1)
+            let randomIndex = arc4random_uniform(upper)
+            let playerController = SongPlayerController()
+            playerController.videoIndex = Int(randomIndex)
+            playerController.videos = videos
+            playerController.shuffleMode = true
+            self.navigationController?.pushViewController(playerController, animated: false)
+        }
+    }
+    
+    @objc func addPlaylistSong() {
+        let addSongsController = AddSongsController()
+        addSongsController.playlistIndex = playlistIndex
+        self.navigationController?.pushViewController(addSongsController, animated: true)
     }
     
     private func setConstraints() {
@@ -94,10 +120,10 @@ extension PlaylistSongsController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let playerController = SongPlayerController()
-        playerController.videoIndex = indexPath.row
-        playerController.videos = videos
-        self.navigationController?.pushViewController(playerController, animated: false)
+        let addSongsController = AddSongsController()
+        addSongsController.playlistIndex = playlistIndex
+        addSongsController.videos = videos
+        self.navigationController?.pushViewController(addSongsController, animated: false)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -106,7 +132,14 @@ extension PlaylistSongsController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
-            //Remove video from storage and update
+            //Remove video from playlist storage and reload table
+            videos.remove(at: indexPath.row)
+            if Storage.fileExists("playlists", in: .documents) {
+                var playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
+                playlists[playlistIndex].numOfItems = videos.count
+                playlists[playlistIndex].videos.remove(at: indexPath.row)
+                Storage.store(playlists, to: .documents, as: "playlists")
+            }
             tableView.reloadData()
         }
     }

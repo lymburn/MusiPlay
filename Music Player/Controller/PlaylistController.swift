@@ -24,6 +24,15 @@ class PlaylistController: BaseViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        //Reload songs data
+        if Storage.fileExists("playlists", in: .documents) {
+            playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
+            print(playlists[0].numOfItems)
+        }
+        tableView.reloadData()
+    }
+    
     let cellId = "cellId"
     var playlists = [Playlist]()
     
@@ -98,8 +107,8 @@ extension PlaylistController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playlistSongsController = PlaylistSongsController()
-        playlistSongsController.videos = playlists[indexPath.row].videos
         playlistSongsController.playlistName = playlists[indexPath.row].title
+        playlistSongsController.playlistIndex = indexPath.row
         self.navigationController?.pushViewController(playlistSongsController, animated: false)
     }
     

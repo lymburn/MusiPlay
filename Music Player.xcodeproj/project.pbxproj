@@ -30,6 +30,7 @@
 		26D3E5DC20B4B19A0035666E /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3E5DB20B4B19A0035666E /* Playlist.swift */; };
 		26D3E5DE20B4BBF50035666E /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3E5DD20B4BBF50035666E /* Video.swift */; };
 		26D3E5E020B500420035666E /* PlaylistSongsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3E5DF20B500420035666E /* PlaylistSongsController.swift */; };
+		26D3E5E220B503F20035666E /* AddSongsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3E5E120B503F20035666E /* AddSongsController.swift */; };
 		26EA15A720B3780D00D6F4A5 /* FavouritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EA15A620B3780D00D6F4A5 /* FavouritesController.swift */; };
 		26EA15A920B37A1000D6F4A5 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EA15A820B37A1000D6F4A5 /* Storage.swift */; };
 		9788F7B4DF4AD9E42477A291 /* Pods_Music_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3752BDB10DFE1551E577AD /* Pods_Music_Player.framework */; };
@@ -61,6 +62,7 @@
 		26D3E5DB20B4B19A0035666E /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		26D3E5DD20B4BBF50035666E /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		26D3E5DF20B500420035666E /* PlaylistSongsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistSongsController.swift; sourceTree = "<group>"; };
+		26D3E5E120B503F20035666E /* AddSongsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSongsController.swift; sourceTree = "<group>"; };
 		26EA15A620B3780D00D6F4A5 /* FavouritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesController.swift; sourceTree = "<group>"; };
 		26EA15A820B37A1000D6F4A5 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7F08F5C093B050F9027FCFCF /* Pods-Music Player.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Music Player.release.xcconfig"; path = "Pods/Target Support Files/Pods-Music Player/Pods-Music Player.release.xcconfig"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				26EA15A620B3780D00D6F4A5 /* FavouritesController.swift */,
 				26D3E5D720B4AA040035666E /* PlaylistController.swift */,
 				26D3E5DF20B500420035666E /* PlaylistSongsController.swift */,
+				26D3E5E120B503F20035666E /* AddSongsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				260E01C620ACB459003B7423 /* TrendingController.swift in Sources */,
 				260E01DA20ACBEF0003B7423 /* SongCell.swift in Sources */,
 				264298E720AE1774007830DC /* VideoModel.swift in Sources */,
+				26D3E5E220B503F20035666E /* AddSongsController.swift in Sources */,
 				2624E43E20AF7238002FEA1A /* SongPlayerController.swift in Sources */,
 				26D3E5DE20B4BBF50035666E /* Video.swift in Sources */,
 				260E01C420ACB459003B7423 /* AppDelegate.swift in Sources */,

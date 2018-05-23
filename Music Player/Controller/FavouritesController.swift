@@ -53,13 +53,15 @@ class FavouritesController: BaseViewController {
     
     @objc func shuffleButtonPressed() {
         //Pick a random song and play it
-        let upper = UInt32(videos.count - 1)
-        let randomIndex = arc4random_uniform(upper)
-        let playerController = SongPlayerController()
-        playerController.videoIndex = Int(randomIndex)
-        playerController.videos = videos
-        playerController.shuffleMode = true
-        self.navigationController?.pushViewController(playerController, animated: false)
+        if videos.count > 0 {
+            let upper = UInt32(videos.count - 1)
+            let randomIndex = arc4random_uniform(upper)
+            let playerController = SongPlayerController()
+            playerController.videoIndex = Int(randomIndex)
+            playerController.videos = videos
+            playerController.shuffleMode = true
+            self.navigationController?.pushViewController(playerController, animated: false)
+        }
     }
     
     private func setConstraints() {
