@@ -23,7 +23,7 @@ class PlayerControlsView: UIView {
     
     let videoTitle: MarqueeLabel = {
         let label = MarqueeLabel()
-        label.font = UIFont(name: label.font.fontName, size: 16)
+        label.font = UIFont(name: "Helvetica", size: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.type = .continuous
         label.textAlignment = .center
@@ -35,7 +35,7 @@ class PlayerControlsView: UIView {
     
     let currentTimeLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: label.font.fontName, size: 13)
+        label.font = UIFont(name: "Helvetica", size: 13)
         label.text = "00:00"
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class PlayerControlsView: UIView {
     
     let durationLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: label.font.fontName, size: 13)
+        label.font = UIFont(name: "Helvetica", size: 13)
         label.text = "00:00"
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
