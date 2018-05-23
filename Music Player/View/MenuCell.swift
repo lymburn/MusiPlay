@@ -20,7 +20,7 @@ class MenuCell: BaseCollectionViewCell {
     
     let iconLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: label.font.fontName, size: 10)
+        label.font = UIFont(name: "Helvetica", size: 10)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

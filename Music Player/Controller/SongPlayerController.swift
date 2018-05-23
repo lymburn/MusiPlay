@@ -32,8 +32,6 @@ class SongPlayerController : UIViewController{
         guard let videos = videos else {return}
         videoPlayerView.clear()
         videoPlayerView.loadVideoID(videos[videoIndex].videoId)
-        
-        setActivityIndicator()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,6 +81,7 @@ class SongPlayerController : UIViewController{
         
         controlsView.videoTitle.text = videos?[videoIndex!].title
         setupConstraints()
+        setActivityIndicator()
     }
     
     private func setupConstraints() {

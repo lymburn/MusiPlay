@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class SearchController: BaseViewController {
     override func viewDidLoad() {
@@ -34,6 +35,7 @@ class SearchController: BaseViewController {
     let cellId = "cellId"
     var query: String? = nil
     var favouriteSongs = [Video]()
+    var activityIndicator: NVActivityIndicatorView!
     
     @objc func dismissKeyboard() {
         searchBar.endEditing(true)
@@ -42,13 +44,22 @@ class SearchController: BaseViewController {
     override func setupViews() {
         view.addSubview(searchBar)
         view.addSubview(tableView)
+        view.addSubview(loadingView)
         super.setupMenuBar(iconName: "Search")
         setConstraints()
+        setActivityIndicator()
     }
     
     let tableView: BaseTableView = {
         let tb = BaseTableView()
         return tb
+    }()
+    
+    var loadingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.white
+        return view
     }()
     
     let searchBar : UISearchBar = {
@@ -67,6 +78,20 @@ class SearchController: BaseViewController {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        loadingView.topAnchor.constraint(equalTo: searchBar.bottomAnchor).isActive = true
+        loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+    
+    //Loading animation
+    private func setActivityIndicator() {
+        let size = view.bounds.width/6
+        let frame = CGRect(x: view.center.x - size/2.0, y: tableView.center.y - size/2.0, width: size, height: size)
+        activityIndicator = NVActivityIndicatorView(frame: frame, type: .audioEqualizer, color: UIColor.blue)
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
 }
 
@@ -77,6 +102,8 @@ extension SearchController: UISearchBarDelegate {
         searchBar.endEditing(true)
         //Fetch songs of related search
         if searchBar.text != "" && searchBar.text != nil {
+            loadingView.alpha = 1
+            setActivityIndicator()
             query = searchBar.text!
             //Replace spaces with + for youtube queries
             query = query!.replacingOccurrences(of: " ", with: "+")
@@ -158,6 +185,8 @@ extension SearchController: VideoModelDelegate {
         videos = videoModel.videos
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.loadingView.alpha = 0
+            self.activityIndicator.stopAnimating()
         }
     }
 }

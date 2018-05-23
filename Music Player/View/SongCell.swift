@@ -33,7 +33,7 @@ class SongCell : BaseTableViewCell {
         textView.isUserInteractionEnabled = false
         textView.textContainer.maximumNumberOfLines = 2
         textView.textContainer.lineBreakMode = .byTruncatingTail
-        textView.font = UIFont(name: "Helvetica Neue", size: 14)
+        textView.font = UIFont(name: "Helvetica", size: 14)
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         //Allows for auto resizing
@@ -50,7 +50,7 @@ class SongCell : BaseTableViewCell {
     lazy var addSongButton: UIButton = {
         var button = UIButton()
         button.setTitle("➕", for: .normal)
-        button.titleLabel!.font = UIFont(name: button.titleLabel!.font.fontName, size: 14)
+        button.titleLabel!.font = UIFont(name: button.titleLabel!.font.fontName, size: 12)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addSong), for: .touchDown)
         return button
@@ -59,7 +59,7 @@ class SongCell : BaseTableViewCell {
     let channelLabel : UILabel = {
         var label = UILabel()
         label.textColor = UIColor.gray
-        label.font = UIFont(name:  "Helvetica Neue", size: 12)
+        label.font = UIFont(name:  "Helvetica", size: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

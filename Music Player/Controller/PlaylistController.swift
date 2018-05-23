@@ -28,7 +28,6 @@ class PlaylistController: BaseViewController {
         //Reload songs data
         if Storage.fileExists("playlists", in: .documents) {
             playlists = Storage.retrieve("playlists", from: .documents, as: [Playlist].self)
-            print(playlists[0].numOfItems)
         }
         tableView.reloadData()
     }

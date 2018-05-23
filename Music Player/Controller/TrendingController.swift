@@ -30,25 +30,48 @@ class TrendingController: BaseViewController {
     var videos = [Video]()
     let cellId = "cellId"
     var favouriteSongs = [Video]()
+    var activityIndicator : NVActivityIndicatorView!
     
     let tableView : BaseTableView = {
         let tableView = BaseTableView()
         return tableView
     }()
 
+    var loadingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    //Loading animation
+    private func setActivityIndicator() {
+        let size = view.bounds.width/6
+        let frame = CGRect(x: view.center.x - size/2.0, y: view.center.y - size/2, width: size, height: size)
+        activityIndicator = NVActivityIndicatorView(frame: frame, type: .audioEqualizer, color: UIColor.blue)
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
     
     private func setConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        loadingView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     override func setupViews() {
         super.setupViews()
         view.addSubview(tableView)
+        view.addSubview(loadingView)
         super.setupMenuBar(iconName: "Trending")
         setConstraints()
+        setActivityIndicator()
     }
 }
 
@@ -112,6 +135,8 @@ extension TrendingController: VideoModelDelegate {
         videos = videoModel.videos
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.loadingView.alpha = 0
+            self.activityIndicator.stopAnimating()
         }
     }
 }

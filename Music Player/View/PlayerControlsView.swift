@@ -37,7 +37,7 @@ class PlayerControlsView: UIView {
         let label = UILabel()
         label.font = UIFont(name: label.font.fontName, size: 13)
         label.text = "00:00"
-        label.textAlignment = .left
+        label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -137,7 +137,7 @@ extension PlayerControlsView {
         durationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8).isActive = true
         durationLabel.bottomAnchor.constraint(equalTo: nextVideoButton.topAnchor, constant: -24).isActive = true
         
-        videoSlider.leadingAnchor.constraint(equalTo: currentTimeLabel.trailingAnchor).isActive = true
+        videoSlider.leadingAnchor.constraint(equalTo: currentTimeLabel.trailingAnchor, constant: 8).isActive = true
         videoSlider.trailingAnchor.constraint(equalTo: durationLabel.leadingAnchor, constant: -8).isActive = true
         videoSlider.bottomAnchor.constraint(equalTo: pauseButton.topAnchor, constant: -24).isActive = true
         videoSlider.heightAnchor.constraint(equalToConstant: 20).isActive = true

@@ -13,7 +13,7 @@ class PlaylistCell: BaseTableViewCell {
     var title : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: label.font.fontName, size: 24)
+        label.font = UIFont(name: "Helvetica", size: 24)
         return label
     }()
     
@@ -26,7 +26,7 @@ class PlaylistCell: BaseTableViewCell {
     var itemCount: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: label.font.fontName, size: 16)
+        label.font = UIFont(name: "Helvetica", size: 16)
         label.textColor = UIColor.gray
         return label
     }()
