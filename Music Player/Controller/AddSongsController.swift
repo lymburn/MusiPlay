@@ -65,6 +65,8 @@ extension AddSongsController: UITableViewDelegate, UITableViewDataSource {
         let data = try? Data(contentsOf: videoThumbnailURL!)
         if data != nil {
             cell.imageView?.image = UIImage(data: data!)
+        } else {
+            cell.imageView?.image = UIImage(named: "Note")
         }
         return cell
     }

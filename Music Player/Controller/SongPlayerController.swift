@@ -224,7 +224,7 @@ extension SongPlayerController {
             controlsView.videoTitle.text = videos[videoIndex!].title
         } else {
             //If shuffling, pick random song
-            let upper = UInt32(videos.count - 1)
+            let upper = UInt32(videos.count)
             let randIndex = Int(arc4random_uniform(upper))
             videoPlayerView.loadVideoID(videos[randIndex].videoId)
             controlsView.videoTitle.text = videos[randIndex].title
@@ -248,7 +248,7 @@ extension SongPlayerController {
             controlsView.videoTitle.text = videos[videoIndex!].title
         } else {
             //If shuffling, pick random song
-            let upper = UInt32(videos.count - 1)
+            let upper = UInt32(videos.count)
             let randIndex = Int(arc4random_uniform(upper))
             videoPlayerView.loadVideoID(videos[randIndex].videoId)
             controlsView.videoTitle.text = videos[randIndex].title
