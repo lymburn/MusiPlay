@@ -97,7 +97,10 @@ extension PlaylistController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let playlistSongsController = PlaylistSongsController()
+        playlistSongsController.videos = playlists[indexPath.row].videos
+        playlistSongsController.playlistName = playlists[indexPath.row].title
+        self.navigationController?.pushViewController(playlistSongsController, animated: false)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
