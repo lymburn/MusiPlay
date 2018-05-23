@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class TrendingController: BaseViewController {
     override func viewDidLoad() {
@@ -34,6 +35,7 @@ class TrendingController: BaseViewController {
         let tableView = BaseTableView()
         return tableView
     }()
+
     
     private func setConstraints() {
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true

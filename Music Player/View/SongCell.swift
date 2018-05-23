@@ -19,7 +19,7 @@ class SongCell : BaseTableViewCell {
     var index: Int! //Cell row
     
     let songImageView : UIImageView = {
-        var imageView = UIImageView()
+        var imageView = UIImageView(image: UIImage(named: "Note"))
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true

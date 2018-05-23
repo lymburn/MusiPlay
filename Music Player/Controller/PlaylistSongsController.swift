@@ -115,7 +115,9 @@ extension PlaylistSongsController: UITableViewDelegate, UITableViewDataSource {
         cell.addSongButton.setTitle("", for: .normal)
         let videoThumbnailURL = URL(string: videos[indexPath.row].thumbnailURL)
         let data = try? Data(contentsOf: videoThumbnailURL!)
-        cell.imageView?.image = UIImage(data: data!)
+        if data != nil {
+            cell.imageView?.image = UIImage(data: data!)
+        }
         return cell
     }
     
