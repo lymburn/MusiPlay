@@ -12,5 +12,5 @@ Skills Practiced:
 • Practiced networking by making requests to Youtube API  
 • Practiced programming autolayout programmatically for greater control over UI  
 • JSON parsing with URLSession  
-• JSON persistence by utilizing Codable data structures
+• JSON persistence by utilizing Codable data structures  
 • Utilized UIKit elements such as UITableView, UICollectionView, and UITextView to display content  
