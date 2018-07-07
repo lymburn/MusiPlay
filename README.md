@@ -18,4 +18,4 @@ Skills Practiced:
 • Utilized UIKit elements such as UITableView, UICollectionView, and UITextView to display content  
 
 Demo video:  
-[![Color Chase](https://puu.sh/AS5lC/ebc59c10c0.png)](https://www.youtube.com/watch?v=qplpC5q1jqA&feature=youtu.be)
+[![Color Chase](https://puu.sh/ASAVX/ea82659857.png)](https://youtu.be/2XCC4LxcJls)
