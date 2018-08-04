@@ -9,9 +9,10 @@
 import UIKit
 import NVActivityIndicatorView
 
-class SearchController: BaseViewController {
+class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
         navigationItem.title = "Search"
         view.backgroundColor = UIColor.white
         searchBar.delegate = self
@@ -41,12 +42,11 @@ class SearchController: BaseViewController {
         searchBar.endEditing(true)
     }
     
-    override func setupViews() {
+    fileprivate func setupViews() {
         view.addSubview(searchBar)
         view.addSubview(tableView)
         view.addSubview(loadingView)
-        super.setupMenuBar(iconName: "Search")
-        setConstraints()
+        updateViewConstraints()
         setActivityIndicator()
     }
     
@@ -68,7 +68,9 @@ class SearchController: BaseViewController {
         return bar
     }()
     
-    private func setConstraints() {
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
         searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true

@@ -19,9 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow()
-        
-        let navController = UINavigationController(rootViewController: TrendingController())
-        window!.rootViewController = navController
+        window!.rootViewController = TabController()
         window?.makeKeyAndVisible()
         return true
     }

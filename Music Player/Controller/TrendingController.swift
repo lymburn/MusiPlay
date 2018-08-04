@@ -9,10 +9,12 @@
 import UIKit
 import NVActivityIndicatorView
 
-class TrendingController: BaseViewController {
+class TrendingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Trending"
+        
+        setupViews()
         
         videoModel.fetchSongs(part: "snippet", category: "10", nextPage: false)
         videoModel.delegate = self
@@ -20,7 +22,6 @@ class TrendingController: BaseViewController {
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
         tableView.dataSource = self
-        //Storage.clear(.documents)
         if Storage.fileExists("favouriteSongs", in: .documents) {
             favouriteSongs = Storage.retrieve("favouriteSongs", from: .documents, as: [Video].self)
         }
@@ -53,7 +54,16 @@ class TrendingController: BaseViewController {
         activityIndicator.startAnimating()
     }
     
-    private func setConstraints() {
+    private func setupViews() {
+        view.addSubview(tableView)
+        view.addSubview(loadingView)
+        updateViewConstraints()
+        setActivityIndicator()
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -63,15 +73,6 @@ class TrendingController: BaseViewController {
         loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         loadingView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         loadingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    }
-    
-    override func setupViews() {
-        super.setupViews()
-        view.addSubview(tableView)
-        view.addSubview(loadingView)
-        super.setupMenuBar(iconName: "Trending")
-        setConstraints()
-        setActivityIndicator()
     }
 }
 
@@ -131,7 +132,6 @@ extension TrendingController: UITableViewDelegate, UITableViewDataSource {
 //MARK: Video model delegate
 extension TrendingController: VideoModelDelegate {
     func dataReady() {
-        print("data ready")
         videos = videoModel.videos
         DispatchQueue.main.async {
             self.tableView.reloadData()

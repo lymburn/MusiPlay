@@ -8,9 +8,10 @@
 
 import UIKit
 
-class PlaylistController: BaseViewController {
+class PlaylistController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
         
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
@@ -35,10 +36,8 @@ class PlaylistController: BaseViewController {
     let cellId = "cellId"
     var playlists = [Playlist]()
     
-    override func setupViews() {
-        super.setupViews()
+    private func setupViews() {
         view.addSubview(tableView)
-        super.setupMenuBar(iconName: "Playlist")
         setConstraints()
     }
     

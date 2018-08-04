@@ -8,9 +8,10 @@
 
 import UIKit
 
-class FavouritesController: BaseViewController {
+class FavouritesController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
         view.backgroundColor = UIColor.white
         
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
@@ -26,13 +27,10 @@ class FavouritesController: BaseViewController {
     let cellId = "cellId"
     var videos = [Video]()
     
-    override func setupViews() {
-        super.setupViews()
+    func setupViews() {
         view.addSubview(tableView)
         view.addSubview(shuffleButton)
-        super.setupMenuBar(iconName: "Favourites")
-        
-        setConstraints()
+        updateViewConstraints()
     }
     
     let tableView: BaseTableView = {
@@ -64,7 +62,9 @@ class FavouritesController: BaseViewController {
         }
     }
     
-    private func setConstraints() {
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
         shuffleButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         shuffleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         shuffleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true

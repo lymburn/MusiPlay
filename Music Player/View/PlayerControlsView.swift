@@ -160,18 +160,18 @@ extension PlayerControlsView {
         
         //Volume controls
         lowerVolume.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 44).isActive = true
-        lowerVolume.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24).isActive = true
+        lowerVolume.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60).isActive = true
         lowerVolume.widthAnchor.constraint(equalToConstant: 15).isActive = true
         lowerVolume.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
         higherVolume.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -44).isActive = true
-        higherVolume.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24).isActive = true
+        higherVolume.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60).isActive = true
         higherVolume.widthAnchor.constraint(equalToConstant: 15).isActive = true
         higherVolume.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
         volumeSlider.leadingAnchor.constraint(equalTo: lowerVolume.trailingAnchor, constant: 24).isActive = true
         volumeSlider.trailingAnchor.constraint(equalTo: higherVolume.leadingAnchor, constant: -24).isActive = true
-        volumeSlider.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24).isActive = true
+        volumeSlider.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -60).isActive = true
         volumeSlider.heightAnchor.constraint(equalToConstant: 15).isActive = true
     }
 }

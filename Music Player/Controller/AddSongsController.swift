@@ -8,10 +8,11 @@
 
 import UIKit
 
-class AddSongsController: BaseViewController {
+class AddSongsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        setupViews()
         
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
@@ -27,8 +28,7 @@ class AddSongsController: BaseViewController {
     var videos = [Video]()
     var playlistIndex: Int!
     
-    override func setupViews() {
-        super.setupViews()
+    private func setupViews() {
         view.addSubview(tableView)
         setConstraints()
     }

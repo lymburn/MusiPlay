@@ -8,10 +8,11 @@
 
 import UIKit
 
-class PlaylistSongsController: BaseViewController {
+class PlaylistSongsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        setupViews()
         
         tableView.register(SongCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
@@ -42,8 +43,7 @@ class PlaylistSongsController: BaseViewController {
     var playlistName: String!
     var playlistIndex: Int!
     
-    override func setupViews() {
-        super.setupViews()
+    private func setupViews() {
         view.addSubview(tableView)
         view.addSubview(shuffleButton)
         

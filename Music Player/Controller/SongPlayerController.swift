@@ -11,7 +11,7 @@ import YouTubePlayer
 import WebKit
 import NVActivityIndicatorView
 
-class SongPlayerController : UIViewController{
+class SongPlayerController : UIViewController {
     var videoIndex: Int? = nil
     var videos : [Video]? = nil
     var activityIndicator: NVActivityIndicatorView!
@@ -80,11 +80,13 @@ class SongPlayerController : UIViewController{
         view.addSubview(loadingView)
         
         controlsView.videoTitle.text = videos?[videoIndex!].title
-        setupConstraints()
+        updateViewConstraints()
         setActivityIndicator()
     }
     
-    private func setupConstraints() {
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
         videoPlayerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         videoPlayerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         videoPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
