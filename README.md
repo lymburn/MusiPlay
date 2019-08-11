@@ -16,6 +16,3 @@ Skills Practiced:
 • JSON parsing with URLSession  
 • JSON persistence by utilizing Codable data structures  
 • Utilized UIKit elements such as UITableView, UICollectionView, and UITextView to display content  
-
-Demo video:  
-[![Color Chase](https://puu.sh/ASAVX/ea82659857.png)](https://youtu.be/2XCC4LxcJls)
